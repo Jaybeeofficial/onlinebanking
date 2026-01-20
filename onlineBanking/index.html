@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Online Bank</title>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <!-- Login Form -->
+      <form id="loginForm">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit">Login</button>
+        <p><a href="#" id="showForgot">Forgotten Password?</a></p>
+      </form>
+
+      <!-- Forgot Password Form -->
+      <form id="forgotForm" class="hidden">
+        <h2>Forgot Password</h2>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button type="submit">Reset Password</button>
+        <p><a href="#" id="backToLogin">Back to Login</a></p>
+      </form>
+    </div>
+  </div>
+
+  
+  <header class="topbar">
+  <div class="logo">
+    <span class="mountain">▲▲</span> Alta <strong>Bank</strong>
+  </div>
+
+  <nav class="nav" id="nav">
+    <a class="active" href="#">Accounts</a>
+    <a href="#">Transfer & Pay</a>
+    <a href="#">Bill Pay</a>
+    <a href="#">Services</a>
+    <a href="#">Support</a>
+  </nav>
+
+  <div class="user" id="user">
+    <span>Welcome, Ceo!</span>
+    <button class="logout">Log Out</button>
+  </div>
+
+  <div class="hamburger" id="hamburger">☰</div>
+
+  
+</header>
+
+<main class="container">
+  <h1>Welcome back, Ceo!</h1>
+  <p class="subtitle">Your account overview is below.</p>
+
+  
+ 
+
+<section class="grid">
+  
+  <div class="card account-card">
+    <h3>Accounts Summary</h3>
+
+    <div class="account">
+      <div class="account-left">
+        <div class="account-icon checking">
+          <i class="fa-solid fa-money-check-dollar"></i>
+        </div>
+        <div>
+          <strong>Checking</strong>
+          <span>Ending in 1234</span>
+        </div>
+      </div>
+      <strong>$92,250.75</strong>
+    </div>
+
+    <div class="account">
+      <div class="account-left">
+        <div class="account-icon savings">
+          <i class="fa-solid fa-piggy-bank"></i>
+        </div>
+        <div>
+          <strong>Savings</strong>
+          <span>Ending in 5678</span>
+        </div>
+      </div>
+      <strong>$23,580.40</strong>
+    </div>
+
+    <div class="account">
+      <div class="account-left">
+        <div class="account-icon credit">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+        <div>
+          <strong>Credit Card</strong>
+          <span>Ending in 9876</span>
+        </div>
+      </div>
+      <strong>$450.30</strong>
+    </div>
+
+    <a class="link" href="#" id="viewDetails">View Details →</a>
+  </div>
+
+  
+  <div class="card transactions-card">
+    <div class="card-header">
+      <h3>Recent Transactions</h3>
+      <a class="link" href="#" id="viewAll">View All</a>
+    </div>
+
+    <div class="transaction">
+      <span>Grocery Store</span>
+      <span>Jan 24</span>
+    </div>
+
+    <div class="transaction">
+      <span>ATM Withdrawal</span>
+      <span class="negative">- $100.00</span>
+    </div>
+
+    <div class="transaction">
+      <span>Paycheck Deposit</span>
+      <span class="positive">+ $2,100.00</span>
+    </div>
+
+    <div class="transaction">
+      <span>Electric Bill Payment</span>
+      <span class="negative">- $85.60</span>
+    </div>
+  </div>
+
+
+
+  <!-- Quick Transfer (NARROW - LEFT) -->
+  <div class="card transfer-card">
+    <h3>Quick Transfer</h3>
+
+    <label>From</label>
+    <select>
+      <option>Checking</option>
+    </select>
+
+    <label>To</label>
+    <select>
+      <option>Savings</option>
+    </select>
+
+    <label>Amount</label>
+    <div class="currency-input">
+      <span class="currency">$</span>
+      <input type="number" placeholder="0.00">
+    </div>
+
+    <button
+      class="btn green"
+      style="width:auto; min-width:160px; padding:10px 26px;">
+      Transfer Funds
+    </button>
+  </div>
+
+
+  <div class="card billpay-card">
+    <h3>Bill Pay</h3>
+
+    <div class="billpay-grid">
+      <div class="field">
+        <label>Pay To</label>
+        <select>
+          <option>Electric Company</option>
+        </select>
+      </div>
+
+      <!-- <div class="field">
+        <label>Amount</label>
+        <input type="number" placeholder="$">
+      </div> -->
+
+      <div class="field">
+        <label>Delivery Date</label>
+        <input type="date">
+      </div>
+
+       <div class="field">
+        <label>Amount</label>
+        <div class="currency-input">
+          <span class="currency">$</span>
+          <input type="number" placeholder="0.00">
+        </div>
+      </div>
+    </div>
+
+    <button class="btn blue billpay-btn" style="width:auto; min-width:140px;">
+      Pay Bill
+    </button>
+  </div>
+
+</section>
+
+<!-- PIN Modal -->
+<div class="receipt-modal hidden" id="pinModal">
+  <div class="receipt-card">
+    <h3>Enter Transfer PIN</h3>
+    <input type="password" id="transferPin" maxlength="4" placeholder="****" />
+    <button class="btn blue" id="confirmPin">Confirm</button>
+    <button class="btn close-receipt" id="cancelPin">Cancel</button>
+  </div>
+</div>
+
+<!-- PIN Error Modal -->
+<div class="receipt-modal hidden" id="pinErrorModal">
+  <div class="receipt-card">
+    <h3>Incorrect PIN</h3>
+    <p>The PIN you entered is incorrect. Please try again.</p>
+    <button class="btn blue close-receipt" id="closePinError">Close</button>
+  </div>
+</div>
+
+<!-- Account On Hold Modal -->
+<div class="receipt-modal hidden" id="accountHoldModal">
+  <div class="receipt-card">
+    <h3>Transfer On Hold</h3>
+    <p>Your account needs to be upgraded to complete this transaction.</p>
+    <button class="btn blue close-receipt" id="closeAccountHold">Close</button>
+  </div>
+</div>
+
+
+<!-- ========================= -->
+<!-- MODALS (SAFE, NAMESPACED) -->
+<!-- ========================= -->
+
+<!-- Account Details Modal -->
+<div class="account-modal account-modal-hidden" id="accountDetailsModal">
+  <div class="account-modal-card">
+    <h3>Account Details</h3>
+    <p><strong>Checking Account</strong> • Ending in 1234</p>
+    <p>Available Balance: $92,250.75</p>
+    <p>Account Type: Checking</p>
+    <p>Opened: Jan 15, 2020</p>
+    <p>Branch: Downtown</p>
+    <h4>Recent Activity</h4>
+    <ul>
+      <li>Deposit • Jan 24 • $500.00</li>
+      <li>Withdrawal • Jan 23 • $200.00</li>
+      <li>Transfer • Jan 22 • $150.00</li>
+      <li>Deposit • Jan 20 • $1,000.00</li>
+      <li>Payment • Jan 18 • $85.60</li>
+    </ul>
+    <button class="account-modal-close btn">Close</button>
+  </div>
+</div>
+
+<!-- Recent Transactions Modal -->
+<div class="transactions-modal account-modal-hidden" id="transactionsModal">
+  <div class="account-modal-card">
+    <h3>Recent Transactions</h3>
+    <ul>
+      <li>Grocery Store • Jan 24 • $45.00</li>
+      <li>ATM Withdrawal • Jan 23 • $100.00</li>
+      <li>Paycheck Deposit • Jan 22 • $2,100.00</li>
+      <li>Electric Bill Payment • Jan 21 • $85.60</li>
+      <li>Restaurant • Jan 20 • $60.00</li>
+      <li>Online Shopping • Jan 19 • $120.50</li>
+      <li>Gas Station • Jan 18 • $35.75</li>
+      <li>Coffee Shop • Jan 17 • $12.00</li>
+    </ul>
+    <button class="account-modal-close btn">Close</button>
+  </div>
+</div>
+
+<!-- ========================= -->
+<!-- SAFE CSS (ADD TO YOUR STYLES) -->
+<!-- ========================= -->
+<style>
+/* Modal overlay */
+.account-modal,
+.transactions-modal {
+  display: none; /* hidden by default */
+  position: fixed; /* full screen overlay */
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background: rgba(0, 0, 0, 0.45); /* semi-transparent background */
+  justify-content: center;
+  align-items: center;
+  z-index: 3000; /* higher than everything else */
+}
+
+/* Modal card */
+.account-modal-card {
+  background: #fff;
+  padding: 24px;
+  border-radius: 14px;
+  width: 350px;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.account-modal-card h3 {
+  margin-bottom: 12px;
+}
+
+.account-modal-card h4 {
+  margin-top: 20px;
+  margin-bottom: 8px;
+}
+
+.account-modal-card p, .account-modal-card li {
+  margin: 6px 0;
+}
+
+.account-modal-card ul {
+  padding-left: 20px;
+}
+
+.account-modal-card button {
+  margin-top: 20px;
+  width: 100%;
+}
+
+/* Active state */
+.account-modal-active,
+.transactions-modal-active {
+  display: flex;
+}
+
+</style>
+
+
+
+</main>
+
+
+
+
+<!-- BALANCE CARD -->
+<div class="card balance-card">
+  <h3>Available Balance</h3>
+  <h1 id="balance">$10,000.00</h1>
+  <button class="btn" id="changePinBtn">Change Transfer PIN</button>
+</div>
+
+
+<div class="card transfer-card">
+  <h2>Transfer & Pay</h2>
+
+  <form class="transfer-form" id="transferForm">
+    <label>Recipient Account Number</label>
+    <input type="text" id="accountNumber" required />
+
+    <label>Bank</label>
+    <select id="bank" required>
+      <option value="">Select Bank</option>
+      <option>JPMorgan Chase (USA)</option>
+      <option>Bank of America (USA)</option>
+      <option>Citibank (USA)</option>
+      <option>Wells Fargo (USA)</option>
+      <option>HSBC (UK)</option>
+      <option>Barclays (UK)</option>
+      <option>Lloyds Bank (UK)</option>
+      <option>Deutsche Bank (Germany)</option>
+      <option>BNP Paribas (France)</option>
+      <option>Credit Suisse (Switzerland)</option>
+    </select>
+
+    <label>Account Name</label>
+    <input type="text" id="accountName" required />
+
+    <label>Amount</label>
+    <div class="currency-input">
+      <span class="currency">$</span>
+      <input type="number" id="amount" required />
+    </div>
+
+    <button type="submit" class="btn blue">Transfer Money</button>
+  </form>
+</div>
+
+
+<div class="card transfer-history">
+  <h3>Transfer History</h3>
+
+  <div class="history-item"
+       data-ref="TRX-430912"
+       data-name="Olivia Brown"
+       data-bank="Bank of America (USA)"
+       data-amount="$1,250.00"
+       data-status="Completed">
+    <div>
+      <strong>Olivia Brown</strong>
+      <span>Bank of America (USA) • Jan 19, 2026</span>
+    </div>
+    <div class="amount">$1,250.00</div>
+  </div>
+
+  <div class="history-item"
+       data-ref="TRX-319884"
+       data-name="Noah Wilson"
+       data-bank="HSBC (UK)"
+       data-amount="$540.00"
+       data-status="Completed">
+    <div>
+      <strong>Noah Wilson</strong>
+      <span>HSBC (UK) • Jan 15, 2026</span>
+    </div>
+    <div class="amount">$540.00</div>
+  </div>
+</div>
+
+
+<!-- PIN Success Modal -->
+<div class="pin-modal hidden" id="pinSuccessModal">
+  <div class="pin-modal-card">
+    <h3>Success</h3>
+    <p>Transfer PIN has been successfully changed.</p>
+    <button class="btn blue" id="closePinSuccess">Close</button>
+  </div>
+</div>
+
+<!-- PIN Error Modal -->
+<div class="pin-modal hidden" id="pinErrorModal">
+  <div class="pin-modal-card">
+    <h3>Error</h3>
+    <p id="pinErrorMessage">PIN error</p>
+    <button class="btn blue" id="closePinError">Close</button>
+  </div>
+</div>
+
+
+
+<div class="receipt-modal hidden" id="receiptModal">
+  <div class="receipt-card">
+    <h3>Transfer Receipt</h3>
+
+    <div class="receipt-row"><span>Reference</span><strong id="rRef"></strong></div>
+    <div class="receipt-row"><span>Recipient</span><strong id="rName"></strong></div>
+    <div class="receipt-row"><span>Bank</span><strong id="rBank"></strong></div>
+    <div class="receipt-row"><span>Amount</span><strong id="rAmount"></strong></div>
+    <div class="receipt-row"><span>Status</span><strong id="rStatus" class="success"></strong></div>
+
+    <button class="btn blue close-receipt">Close</button>
+  </div>
+</div>
+
+
+<div class="receipt-modal hidden" id="pinModal">
+  <div class="receipt-card">
+    <h3>Enter Transfer PIN</h3>
+    <input type="password" id="transferPin" maxlength="4" placeholder="****" />
+    <button class="btn blue" id="confirmPin">Confirm</button>
+    <button class="btn close-receipt" id="cancelPin">Cancel</button>
+  </div>
+</div>
+
+
+<div class="receipt-modal hidden" id="changePinModal">
+  <div class="receipt-card">
+    <h3>Change Transfer PIN</h3>
+
+    <input type="password" id="oldPin" placeholder="Old PIN" maxlength="4" />
+    <input type="password" id="newPin" placeholder="New PIN" maxlength="4" />
+    <input type="password" id="confirmNewPin" placeholder="Confirm New PIN" maxlength="4" />
+
+    <button class="btn blue" id="saveNewPin">Save PIN</button>
+    <button class="btn close-receipt" id="cancelChangePin">Cancel</button>
+  </div>
+</div>
+
+
+
+
+<section class="services-section">
+
+  <h2 class="services-title">Our Banking Services</h2>
+  <p class="services-subtitle">Everything you need to manage your account securely</p>
+
+  <div class="services-grid">
+
+    <div class="service-card">
+      <i class="fa-solid fa-user-shield"></i>
+      <h4>Account Management</h4>
+      <p>Manage your accounts, balances, and personal information.</p>
+      <button class="service-btn" data-service="account">Learn More</button>
+    </div>
+
+    <div class="service-card">
+      <i class="fa-solid fa-money-bill-transfer"></i>
+      <h4>Money Transfers</h4>
+      <p>Send money securely to local and international banks.</p>
+      <button class="service-btn" data-service="transfer">Learn More</button>
+    </div>
+
+    <div class="service-card">
+      <i class="fa-solid fa-file-invoice-dollar"></i>
+      <h4>Bill Payments</h4>
+      <p>Pay utilities, subscriptions, and services on time.</p>
+      <button class="service-btn" data-service="bill">Learn More</button>
+    </div>
+
+    <div class="service-card">
+      <i class="fa-solid fa-lock"></i>
+      <h4>Security & PIN</h4>
+      <p>Protect your account with secure PIN and verification.</p>
+      <button class="service-btn" data-service="security">Learn More</button>
+    </div>
+
+    <div class="service-card">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <h4>Transaction History</h4>
+      <p>View detailed records of all transactions.</p>
+      <button class="service-btn" data-service="history">Learn More</button>
+    </div>
+
+    <div class="service-card highlight premium">
+  <span class="premium-badge">PREMIUM</span>
+      <i class="fa-solid fa-arrow-up-right-dots"></i>
+      <h4>Account Upgrade</h4>
+      <p>Upgrade your account to remove transfer restrictions.</p>
+      <button class="service-btn upgrade" data-service="upgrade">Upgrade Now</button>
+    </div>
+
+  </div>
+</section>
+
+
+<div class="services-modal hidden" id="servicesModal">
+  <div class="services-modal-card">
+    <h3 id="serviceTitle"></h3>
+    <p id="serviceContent"></p>
+    <button class="btn blue" id="closeServiceModal">Close</button>
+  </div>
+</div>
+
+
+<section class="support-section">
+
+  <h2 class="support-title">Support Center</h2>
+  <p class="support-subtitle">We’re here to help you 24/7</p>
+
+  <!-- SUPPORT OPTIONS -->
+  <div class="support-grid">
+
+    <div class="support-card">
+      <i class="fa-solid fa-headset"></i>
+      <h4>Live Support</h4>
+      <p>Chat with our support team for immediate assistance.</p>
+      <button class="support-btn" data-support="chat">Start Chat</button>
+    </div>
+
+    <!-- <div class="support-card">
+      <i class="fa-solid fa-envelope"></i>
+      <h4>Email Support</h4>
+      <p>Send us an email and we’ll respond within 24 hours.</p>
+      <button class="support-btn" data-support="email">Contact Us</button>
+    </div> -->
+
+    <div class="support-card">
+  <i class="fa-solid fa-envelope"></i>
+  <h4>Email Support</h4>
+  <p>Send us an email and we’ll respond within 24 hours.</p>
+  <button class="support-btn" data-support="email">Contact Us</button>
+  <p class="email-info" style="display:none; color:green; margin-top:8px;">
+    Email: <a href="mailto:support@yourbank.com">binancecompany940@gmail.com</a>
+  </p>
+</div>
+
+
+    <div class="support-card">
+      <i class="fa-solid fa-circle-question"></i>
+      <h4>FAQs</h4>
+      <p>Find quick answers to common questions.</p>
+      <button class="support-btn" data-support="faq">View FAQs</button>
+    </div>
+
+  </div>
+
+  <!-- FAQ SECTION -->
+  <div class="faq-section hidden" id="faqSection">
+
+    <div class="faq-item">
+      <h5>Why is my transfer on hold?</h5>
+      <p>Your account may require an upgrade to complete transfers.</p>
+    </div>
+
+    <div class="faq-item">
+      <h5>How do I change my transfer PIN?</h5>
+      <p>You can change your PIN from the dashboard under security settings.</p>
+    </div>
+
+    <div class="faq-item">
+      <h5>How long do transfers take?</h5>
+      <p>Transfers are usually instant but may be delayed for verification.</p>
+    </div>
+
+  </div>
+
+
+
+  <div class="chat-widget hidden" id="chatWidget">
+  <div class="chat-header">
+    <h4>Live Support</h4>
+    <button id="closeChat">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <form id="chatForm">
+    <input type="text" id="chatInput" placeholder="Type your message..." required />
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<footer class="footer">
+  <span>📱 Mobile Banking</span>
+  <span>❓ Support Center</span>
+  <span>📊 Financial Tools</span>
+</footer>
+
+
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<!-- Your script -->
+<script src="script.js"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const hamburger = document.getElementById("hamburger");
+    const nav = document.getElementById("nav");
+    const user = document.getElementById("user");
+
+    hamburger.addEventListener("click", () => {
+      nav.classList.toggle("open");
+      user.classList.toggle("open");
+      hamburger.textContent =
+        hamburger.textContent === "☰" ? "✕" : "☰";
+    });
+  });
+</script>
+
+<script>
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  let balance = 100000;
+  let transferPin = "1234";
+  let pendingTransfer = null;
+
+  const balanceEl = document.getElementById("balance");
+  const form = document.getElementById("transferForm");
+  const historyContainer = document.querySelector(".transfer-history");
+
+  const receiptModal = document.getElementById("receiptModal");
+  const pinModal = document.getElementById("pinModal");
+  const changePinModal = document.getElementById("changePinModal");
+
+  const rRef = document.getElementById("rRef");
+  const rName = document.getElementById("rName");
+  const rBank = document.getElementById("rBank");
+  const rAmount = document.getElementById("rAmount");
+  const rStatus = document.getElementById("rStatus");
+
+  const oldPin = document.getElementById("oldPin");
+  const newPin = document.getElementById("newPin");
+  const confirmNewPin = document.getElementById("confirmNewPin");
+  const saveNewPin = document.getElementById("saveNewPin");
+  const cancelChangePin = document.getElementById("cancelChangePin");
+  const changePinBtn = document.getElementById("changePinBtn");
+
+  const pinSuccessModal = document.getElementById("pinSuccessModal");
+  const closePinSuccess = document.getElementById("closePinSuccess");
+
+  const pinErrorModal = document.getElementById("pinErrorModal");
+  const closePinError = document.getElementById("closePinError");
+  const pinErrorMessage = document.getElementById("pinErrorMessage");
+
+  // NEW: Transfer on Hold Modal
+  const transferHoldModal = document.getElementById("transferHoldModal");
+  const closeTransferHold = document.getElementById("closeTransferHold");
+
+  const transferPinInput = document.getElementById("transferPin");
+  const confirmPinBtn = document.getElementById("confirmPin");
+
+  /* ====== UTILITY FUNCTIONS ====== */
+  function updateBalance() {
+    balanceEl.textContent = `$${balance.toLocaleString()}`;
+  }
+
+  function generateRef() {
+    return "TRX-" + Math.floor(100000 + Math.random() * 900000);
+  }
+
+  function dateNow() {
+    return new Date().toLocaleDateString("en-US", {
+      month: "short", day: "numeric", year: "numeric"
+    });
+  }
+
+  function attachReceipt(item) {
+    item.onclick = () => {
+      rRef.textContent = item.dataset.ref;
+      rName.textContent = item.dataset.name;
+      rBank.textContent = item.dataset.bank;
+      rAmount.textContent = item.dataset.amount;
+      rStatus.textContent = item.dataset.status;
+      receiptModal.classList.remove("hidden");
+    };
+  }
+
+  document.querySelectorAll(".history-item").forEach(attachReceipt);
+  updateBalance();
+
+  /* ====== TRANSFER FORM ====== */
+  form.onsubmit = (e) => {
+    e.preventDefault();
+    const amt = Number(document.getElementById("amount").value);
+
+    if (amt > balance) {
+      pinErrorMessage.textContent = "Insufficient balance.";
+      pinErrorModal.classList.add("pin-modal-active");
+      return;
+    }
+
+    pendingTransfer = {
+      name: document.getElementById("accountName").value,
+      bank: document.getElementById("bank").value,
+      amount: amt,
+      amountText: `$${amt.toLocaleString()}`,
+      ref: generateRef(),
+      date: dateNow()
+    };
+
+    transferPinInput.value = "";
+    pinModal.classList.remove("hidden");
+  };
+
+  /* ====== CONFIRM TRANSFER PIN ====== */
+  confirmPinBtn.onclick = () => {
+    if (transferPinInput.value !== transferPin) {
+      pinErrorMessage.textContent = "Incorrect transfer PIN.";
+      pinErrorModal.classList.add("pin-modal-active");
+      return;
+    }
+
+    pinModal.classList.add("hidden");
+
+    // SHOW TRANSFER ON HOLD MODAL
+    transferHoldModal.classList.add("pin-modal-active");
+  };
+
+  /* ====== CHANGE PIN MODAL ====== */
+  changePinBtn.onclick = () => {
+    oldPin.value = "";
+    newPin.value = "";
+    confirmNewPin.value = "";
+    changePinModal.classList.remove("hidden");
+  };
+
+  saveNewPin.onclick = () => {
+    if (oldPin.value !== transferPin) {
+      pinErrorMessage.textContent = "Old PIN is incorrect.";
+      pinErrorModal.classList.add("pin-modal-active");
+      return;
+    }
+
+    if (newPin.value !== confirmNewPin.value || newPin.value.length !== 4) {
+      pinErrorMessage.textContent = "New PIN mismatch or invalid. Must be 4 digits.";
+      pinErrorModal.classList.add("pin-modal-active");
+      return;
+    }
+
+    transferPin = newPin.value;
+    changePinModal.classList.add("hidden");
+    pinSuccessModal.classList.add("pin-modal-active");
+  };
+
+  cancelChangePin.onclick = () => changePinModal.classList.add("hidden");
+
+  /* ====== CLOSE MODALS ====== */
+  closePinSuccess.onclick = () => pinSuccessModal.classList.remove("pin-modal-active");
+  closePinError.onclick = () => pinErrorModal.classList.remove("pin-modal-active");
+  cancelPin.onclick = () => pinModal.classList.add("pin-modal-active");
+  closeTransferHold.onclick = () => transferHoldModal.classList.remove("pin-modal-active");
+
+  document.querySelectorAll(".close-receipt").forEach(btn => {
+    btn.onclick = () => btn.closest(".receipt-modal").classList.add("hidden");
+  });
+
+  /* ====== CLICK OUTSIDE TO CLOSE MODAL ====== */
+  function enableOutsideClick(modal, activeClass) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.remove(activeClass);
+      }
+    });
+  }
+
+  enableOutsideClick(pinModal, "pin-modal-active");
+  enableOutsideClick(pinSuccessModal, "pin-modal-active");
+  enableOutsideClick(pinErrorModal, "pin-modal-active");
+  enableOutsideClick(transferHoldModal, "pin-modal-active");
+  enableOutsideClick(receiptModal, "hidden");
+
+});
+
+
+</script>
+
+<script>
+  document.getElementById('viewDetails').addEventListener('click', function(e){
+  e.preventDefault();
+  document.getElementById('accountDetailsModal').classList.add('account-modal-active');
+});
+
+document.getElementById('viewAll').addEventListener('click', function(e){
+  e.preventDefault();
+  document.getElementById('transactionsModal').classList.add('transactions-modal-active');
+});
+
+document.querySelectorAll('.account-modal-close').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    const modal = this.closest('.account-modal, .transactions-modal');
+    modal.classList.remove('account-modal-active', 'transactions-modal-active');
+  });
+});
+</script>
+
+
+<script>
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+  let transferPin = "1234"; // default demo PIN
+  let pendingAction = null; // store form data
+
+  // Modals
+  const pinModal = document.getElementById("pinModal");
+  const transferPinInput = document.getElementById("transferPin");
+  const confirmPinBtn = document.getElementById("confirmPin");
+  const cancelPin = document.getElementById("cancelPin");
+
+  const pinErrorModal = document.getElementById("pinErrorModal");
+  const closePinError = document.getElementById("closePinError");
+
+  const accountHoldModal = document.getElementById("accountHoldModal");
+  const closeAccountHold = document.getElementById("closeAccountHold");
+
+  // Buttons
+  const transferBtn = document.querySelector(".transfer-card button");
+  const billPayBtn = document.querySelector(".billpay-card .billpay-btn");
+
+  // ===== OPEN PIN MODAL =====
+  function openPinModal(formData) {
+    pendingAction = formData; // save data if needed
+    transferPinInput.value = "";
+    pinModal.classList.remove("hidden");
+  }
+
+  // Quick Transfer click
+  transferBtn.onclick = () => {
+    const amountInput = document.querySelector(".transfer-card input[type='number']");
+    if (!amountInput.value || Number(amountInput.value) <= 0) return;
+    openPinModal({ type: "transfer", amount: amountInput.value });
+  };
+
+  // Bill Pay click
+  billPayBtn.onclick = () => {
+    const amountInput = document.querySelector(".billpay-card input[type='number']");
+    if (!amountInput.value || Number(amountInput.value) <= 0) return;
+    openPinModal({ type: "billpay", amount: amountInput.value });
+  };
+
+  // ===== CONFIRM PIN =====
+  confirmPinBtn.onclick = () => {
+    if (transferPinInput.value !== transferPin) {
+      pinModal.classList.add("hidden");
+      pinErrorModal.classList.remove("hidden");
+      return;
+    }
+    pinModal.classList.add("hidden");
+    accountHoldModal.classList.remove("hidden");
+  };
+
+  // ===== CLOSE MODALS =====
+  cancelPin.onclick = () => pinModal.classList.add("hidden");
+  closePinError.onclick = () => pinErrorModal.classList.add("hidden");
+  closeAccountHold.onclick = () => accountHoldModal.classList.add("hidden");
+
+  // ===== CLICK OUTSIDE TO CLOSE =====
+  function enableOutsideClick(modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) modal.classList.add("hidden");
+    });
+  }
+
+  enableOutsideClick(pinModal);
+  enableOutsideClick(pinErrorModal);
+  enableOutsideClick(accountHoldModal);
+
+});
+
+</script>
+
+
+<script>
+  const servicesModal = document.getElementById("servicesModal");
+const serviceTitle = document.getElementById("serviceTitle");
+const serviceContent = document.getElementById("serviceContent");
+const closeServiceModal = document.getElementById("closeServiceModal");
+
+document.querySelectorAll(".service-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const type = btn.dataset.service;
+
+    const contentMap = {
+      account: {
+        title: "Account Management",
+        text: "View balances, manage accounts, and update personal details securely."
+      },
+      transfer: {
+        title: "Money Transfers",
+        text: "Send funds securely. Some transfers may require account upgrade."
+      },
+      bill: {
+        title: "Bill Payments",
+        text: "Pay electricity, internet, and other bills directly from your account."
+      },
+      security: {
+        title: "Security & PIN",
+        text: "Manage your transfer PIN and keep your account protected."
+      },
+      history: {
+        title: "Transaction History",
+        text: "Access detailed records of all your past transactions."
+      },
+      upgrade: {
+        title: "Account Upgrade Required",
+        text: "Your account has limits. Upgrade now to unlock full transfer features."
+      }
+    };
+
+    serviceTitle.textContent = contentMap[type].title;
+    serviceContent.textContent = contentMap[type].text;
+
+    servicesModal.classList.remove("hidden");
+  });
+});
+
+closeServiceModal.onclick = () => {
+  servicesModal.classList.add("hidden");
+};
+
+</script>
+
+<script>
+ 
+
+// ---------------- Firebase Init ----------------
+const firebaseConfig = {
+  apiKey: "AIzaSyBR9H69WILmZ0JmlDopihAk_zhEtDpIsFw",
+  authDomain: "onlinebanking-347dd.firebaseapp.com",
+  projectId: "onlinebanking-347dd",
+  storageBucket: "onlinebanking-347dd.appspot.com",
+  messagingSenderId: "1047597422756",
+  appId: "1:1047597422756:web:2b08b2ca528cfd3e4cee31"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+
+
+
+
+const chatWidget = document.getElementById("chatWidget");
+const chatMessages = document.getElementById("chatMessages");
+const chatForm = document.getElementById("chatForm");
+const chatInput = document.getElementById("chatInput");
+const closeChat = document.getElementById("closeChat");
+
+const selectedChatId = "chat_user1"; 
+
+
+document.querySelectorAll(".support-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const type = btn.dataset.support;
+
+    
+    if (type === "faq") {
+      const faqSection = document.getElementById("faqSection");
+      if (faqSection) {
+        faqSection.classList.toggle("hidden");
+      }
+    }
+
+    
+    if (type === "chat") {
+      
+      chatWidget.classList.remove("hidden");
+
+      
+      const chatRef = db.collection("chats").doc(selectedChatId);
+      chatRef.set({}, { merge: true });
+
+      
+      const messagesRef = chatRef.collection("messages");
+      messagesRef.limit(1).get().then(snapshot => {
+        if (snapshot.empty) {
+          messagesRef.add({
+            sender: "system",
+            message: "Chat initialized",
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+      });
+
+      
+      if (!chatWidget.dataset.listenerAttached) {
+        messagesRef.orderBy("timestamp").onSnapshot(snapshot => {
+          chatMessages.innerHTML = "";
+          snapshot.forEach(doc => {
+            const msg = doc.data();
+            const div = document.createElement("div");
+            div.textContent = msg.message;
+
+            if (msg.sender === "admin") div.className = "admin";
+            else if (msg.sender === "user") div.className = "user";
+            else div.className = "system";
+
+            
+            div.style.padding = "6px 10px";
+            div.style.borderRadius = "8px";
+            div.style.margin = "4px 0";
+            div.style.maxWidth = "70%";
+            div.style.alignSelf = msg.sender === "admin" ? "flex-start" : "flex-end";
+            div.style.background = msg.sender === "admin" ? "#007BFF" : (msg.sender === "user" ? "#e0e0e0" : "#ccc");
+            div.style.color = msg.sender === "admin" ? "#fff" : "#000";
+
+            chatMessages.appendChild(div);
+          });
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        });
+
+        chatWidget.dataset.listenerAttached = true;
+      }
+
+     
+      chatForm.onsubmit = e => {
+        e.preventDefault();
+        const message = chatInput.value.trim();
+        if (!message) return;
+
+        messagesRef.add({
+          sender: "user",
+          message,
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        chatInput.value = "";
+      };
+
+      
+      closeChat.onclick = () => chatWidget.classList.add("hidden");
+    }
+
+    
+    if (type === "email") {
+      
+      const parent = btn.closest(".support-card");
+      const info = parent.querySelector(".email-info");
+      if (info) {
+        info.style.display = "block";
+      }
+    }
+  });
+});
+
+
+
+</script>
+
+
+</body>
+</html>
+
