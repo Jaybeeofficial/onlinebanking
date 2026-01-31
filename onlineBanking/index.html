@@ -12,27 +12,63 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Login Modal -->
-  <div id="loginModal" class="modal">
-    <div class="modal-content">
-      <!-- Login Form -->
-      <form id="loginForm">
-        <h2>Login</h2>
-        <input type="text" id="username" placeholder="Username" required>
-        <input type="password" id="password" placeholder="Password" required>
-        <button type="submit">Login</button>
-        <p><a href="#" id="showForgot">Forgotten Password?</a></p>
-      </form>
+  
+  
 
-      <!-- Forgot Password Form -->
-      <form id="forgotForm" class="hidden">
-        <h2>Forgot Password</h2>
-        <input type="email" id="email" placeholder="Enter your email" required>
-        <button type="submit">Reset Password</button>
-        <p><a href="#" id="backToLogin">Back to Login</a></p>
-      </form>
-    </div>
+  <!-- LOGIN MODAL -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm">
+      <h2>Login</h2>
+
+      <input type="email" id="username" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+
+      <button type="submit">Login</button>
+
+      <p>
+        <a href="#" id="showForgot">Forgot password?</a>
+      </p>
+      <p>
+        <a href="#" id="showSignup">Create an account</a>
+      </p>
+    </form>
+
+    <!-- SIGN UP FORM -->
+    <form id="signupForm" class="hidden">
+      <h2>Create Account</h2>
+
+      <input type="text" id="signupName" placeholder="Full Name" required />
+      <input type="email" id="signupEmail" placeholder="Email" required />
+      <input type="password" id="signupPassword" placeholder="Password" required />
+
+      <button type="submit">Sign Up</button>
+
+      <p>
+        <a href="#" id="backToLoginFromSignup">Already have an account? Login</a>
+      </p>
+
+      <p id="signupError" style="color:red;"></p>
+    </form>
+
+    <!-- FORGOT PASSWORD FORM -->
+    <form id="forgotForm" class="hidden">
+      <h2>Reset Password</h2>
+
+      <input type="email" id="email" placeholder="Enter your email" required />
+
+      <button type="submit">Send Reset Link</button>
+
+      <p>
+        <a href="#" id="backToLogin">Back to login</a>
+      </p>
+    </form>
+
   </div>
+</div>
+
 
   
   <header class="topbar">
@@ -48,169 +84,169 @@
     <a href="#">Support</a>
   </nav>
 
-  <div class="user" id="user">
-    <span>Welcome, Ceo!</span>
-    <button class="logout">Log Out</button>
-  </div>
+ 
 
-  <div class="hamburger" id="hamburger">☰</div>
+ <div class="user" id="user">
+  <span>Welcome </span>
+  <button class="logout">Log Out</button>
+</div>
 
-  
+<div class="hamburger" id="hamburger">☰</div>
+
 </header>
 
 <main class="container">
-  <h1>Welcome back, Ceo!</h1>
+  <h1>Welcome back, <span id="welcomeName"></span></h1> 
   <p class="subtitle">Your account overview is below.</p>
 
-  
- 
+  <section class="grid">
+    <!-- Accounts Summary -->
+    <div class="card account-card">
+      <h3>Accounts Summary</h3>
 
-<section class="grid">
-  
-  <div class="card account-card">
-    <h3>Accounts Summary</h3>
-
-    <div class="account">
-      <div class="account-left">
-        <div class="account-icon checking">
-          <i class="fa-solid fa-money-check-dollar"></i>
+      <div class="account">
+        <div class="account-left">
+          <div class="account-icon checking">
+            <i class="fa-solid fa-money-check-dollar"></i>
+          </div>
+          <div>
+            <strong>Checking</strong>
+            <span id="checkingNumber">Ending in —</span>
+          </div>
         </div>
-        <div>
-          <strong>Checking</strong>
-          <span>Ending in 1234</span>
-        </div>
+        <strong id="checkingBalance">$0.00</strong>
       </div>
-      <strong>$92,250.75</strong>
+
+      <div class="account">
+        <div class="account-left">
+          <div class="account-icon savings">
+            <i class="fa-solid fa-piggy-bank"></i>
+          </div>
+          <div>
+            <strong>Savings</strong>
+            <span id="savingsNumber">Ending in —</span>
+          </div>
+        </div>
+        <strong id="savingsBalance">$0.00</strong>
+      </div>
+
+      <div class="account">
+        <div class="account-left">
+          <div class="account-icon credit">
+            <i class="fa-solid fa-credit-card"></i>
+          </div>
+          <div>
+            <strong>Credit Card</strong>
+            <span id="creditNumber">Ending in —</span>
+          </div>
+        </div>
+        <strong id="creditBalance">$0.00</strong>
+      </div>
+
+      <a class="link" href="#" id="viewDetails">View Details →</a>
     </div>
 
-    <div class="account">
-      <div class="account-left">
-        <div class="account-icon savings">
-          <i class="fa-solid fa-piggy-bank"></i>
-        </div>
-        <div>
-          <strong>Savings</strong>
-          <span>Ending in 5678</span>
-        </div>
+    <!-- Recent Transactions -->
+    <div class="card transactions-card">
+      <div class="card-header">
+        <h3>Recent Transactions</h3>
+        <a class="link" href="#" id="viewAll">View All</a>
       </div>
-      <strong>$23,580.40</strong>
+
+      <div class="transaction" id="transactionList">
+        <li>No recent transactions yet</li>
+      </div>
     </div>
 
-    <div class="account">
-      <div class="account-left">
-        <div class="account-icon credit">
-          <i class="fa-solid fa-credit-card"></i>
-        </div>
-        <div>
-          <strong>Credit Card</strong>
-          <span>Ending in 9876</span>
-        </div>
+    <!-- Quick Transfer -->
+    <div class="card transfer-card">
+      <h3>Quick Transfer</h3>
+
+      <label>From</label>
+      <select>
+        <option>Checking</option>
+      </select>
+
+      <label>To</label>
+      <select>
+        <option>Savings</option>
+      </select>
+
+      <label>Amount</label>
+      <div class="currency-input">
+        <span class="currency">$</span>
+        <input type="number" placeholder="0.00">
       </div>
-      <strong>$450.30</strong>
+
+      <button class="btn green" style="width:auto; min-width:160px; padding:10px 26px;">
+        Transfer Funds
+      </button>
     </div>
 
-    <a class="link" href="#" id="viewDetails">View Details →</a>
+    <!-- Bill Pay -->
+    <div class="card billpay-card">
+      <h3>Bill Pay</h3>
+
+      <div class="billpay-grid">
+        <div class="field">
+          <label>Pay To</label>
+          <select>
+            <option>Electric Company</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Delivery Date</label>
+          <input type="date">
+        </div>
+
+        <div class="field">
+          <label>Amount</label>
+          <div class="currency-input">
+            <span class="currency">$</span>
+            <input type="number" placeholder="0.00">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn blue billpay-btn" style="width:auto; min-width:140px;">
+        Pay Bill
+      </button>
+    </div>
+  </section>
+
+  <!-- Account Details Modal -->
+  <div class="account-modal account-modal-hidden" id="accountDetailsModal">
+    <div class="account-modal-card">
+      <h3>Account Details</h3>
+      <p><strong>Checking Account</strong> • <span id="modalCheckingNumber">Ending in —</span></p>
+      <p>Available Balance: <span id="modalCheckingBalance">$0.00</span></p>
+      <p>Account Type: Checking</p>
+      <p>Opened: <span id="modalOpened">—</span></p>
+      <p>Branch: <span id="modalBranch">—</span></p>
+      <h4>Recent Activity</h4>
+      <ul id="modalRecentActivity">
+        <li>No recent transactions yet</li>
+      </ul>
+      <button class="account-modal-close btn">Close</button>
+    </div>
   </div>
 
-  
-  <div class="card transactions-card">
-    <div class="card-header">
+  <!-- Recent Transactions Modal -->
+  <div class="transactions-modal account-modal-hidden" id="transactionsModal">
+    <div class="account-modal-card">
       <h3>Recent Transactions</h3>
-      <a class="link" href="#" id="viewAll">View All</a>
-    </div>
-
-    <div class="transaction">
-      <span>Grocery Store</span>
-      <span>Jan 24</span>
-    </div>
-
-    <div class="transaction">
-      <span>ATM Withdrawal</span>
-      <span class="negative">- $100.00</span>
-    </div>
-
-    <div class="transaction">
-      <span>Paycheck Deposit</span>
-      <span class="positive">+ $2,100.00</span>
-    </div>
-
-    <div class="transaction">
-      <span>Electric Bill Payment</span>
-      <span class="negative">- $85.60</span>
+      <ul id="modalTransactionsList">
+        <li>No recent transactions yet</li>
+      </ul>
+      <button class="account-modal-close btn">Close</button>
     </div>
   </div>
 
-
-
-  <!-- Quick Transfer (NARROW - LEFT) -->
-  <div class="card transfer-card">
-    <h3>Quick Transfer</h3>
-
-    <label>From</label>
-    <select>
-      <option>Checking</option>
-    </select>
-
-    <label>To</label>
-    <select>
-      <option>Savings</option>
-    </select>
-
-    <label>Amount</label>
-    <div class="currency-input">
-      <span class="currency">$</span>
-      <input type="number" placeholder="0.00">
-    </div>
-
-    <button
-      class="btn green"
-      style="width:auto; min-width:160px; padding:10px 26px;">
-      Transfer Funds
-    </button>
-  </div>
-
-
-  <div class="card billpay-card">
-    <h3>Bill Pay</h3>
-
-    <div class="billpay-grid">
-      <div class="field">
-        <label>Pay To</label>
-        <select>
-          <option>Electric Company</option>
-        </select>
-      </div>
-
-      <!-- <div class="field">
-        <label>Amount</label>
-        <input type="number" placeholder="$">
-      </div> -->
-
-      <div class="field">
-        <label>Delivery Date</label>
-        <input type="date">
-      </div>
-
-       <div class="field">
-        <label>Amount</label>
-        <div class="currency-input">
-          <span class="currency">$</span>
-          <input type="number" placeholder="0.00">
-        </div>
-      </div>
-    </div>
-
-    <button class="btn blue billpay-btn" style="width:auto; min-width:140px;">
-      Pay Bill
-    </button>
-  </div>
-
-</section>
-
-<!-- PIN Modal -->
+  <!-- Create / Change PIN Modal -->
 <div class="receipt-modal hidden" id="pinModal">
   <div class="receipt-card">
-    <h3>Enter Transfer PIN</h3>
+    <h3 id="pinModalTitle">Create Your 4-Digit PIN</h3>
     <input type="password" id="transferPin" maxlength="4" placeholder="****" />
     <button class="btn blue" id="confirmPin">Confirm</button>
     <button class="btn close-receipt" id="cancelPin">Cancel</button>
@@ -235,122 +271,15 @@
   </div>
 </div>
 
-
-<!-- ========================= -->
-<!-- MODALS (SAFE, NAMESPACED) -->
-<!-- ========================= -->
-
-<!-- Account Details Modal -->
-<div class="account-modal account-modal-hidden" id="accountDetailsModal">
-  <div class="account-modal-card">
-    <h3>Account Details</h3>
-    <p><strong>Checking Account</strong> • Ending in 1234</p>
-    <p>Available Balance: $92,250.75</p>
-    <p>Account Type: Checking</p>
-    <p>Opened: Jan 15, 2020</p>
-    <p>Branch: Downtown</p>
-    <h4>Recent Activity</h4>
-    <ul>
-      <li>Deposit • Jan 24 • $500.00</li>
-      <li>Withdrawal • Jan 23 • $200.00</li>
-      <li>Transfer • Jan 22 • $150.00</li>
-      <li>Deposit • Jan 20 • $1,000.00</li>
-      <li>Payment • Jan 18 • $85.60</li>
-    </ul>
-    <button class="account-modal-close btn">Close</button>
-  </div>
-</div>
-
-<!-- Recent Transactions Modal -->
-<div class="transactions-modal account-modal-hidden" id="transactionsModal">
-  <div class="account-modal-card">
-    <h3>Recent Transactions</h3>
-    <ul>
-      <li>Grocery Store • Jan 24 • $45.00</li>
-      <li>ATM Withdrawal • Jan 23 • $100.00</li>
-      <li>Paycheck Deposit • Jan 22 • $2,100.00</li>
-      <li>Electric Bill Payment • Jan 21 • $85.60</li>
-      <li>Restaurant • Jan 20 • $60.00</li>
-      <li>Online Shopping • Jan 19 • $120.50</li>
-      <li>Gas Station • Jan 18 • $35.75</li>
-      <li>Coffee Shop • Jan 17 • $12.00</li>
-    </ul>
-    <button class="account-modal-close btn">Close</button>
-  </div>
-</div>
-
-<!-- ========================= -->
-<!-- SAFE CSS (ADD TO YOUR STYLES) -->
-<!-- ========================= -->
-<style>
-/* Modal overlay */
-.account-modal,
-.transactions-modal {
-  display: none; /* hidden by default */
-  position: fixed; /* full screen overlay */
-  inset: 0; /* top:0; right:0; bottom:0; left:0 */
-  background: rgba(0, 0, 0, 0.45); /* semi-transparent background */
-  justify-content: center;
-  align-items: center;
-  z-index: 3000; /* higher than everything else */
-}
-
-/* Modal card */
-.account-modal-card {
-  background: #fff;
-  padding: 24px;
-  border-radius: 14px;
-  width: 350px;
-  max-width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-}
-
-.account-modal-card h3 {
-  margin-bottom: 12px;
-}
-
-.account-modal-card h4 {
-  margin-top: 20px;
-  margin-bottom: 8px;
-}
-
-.account-modal-card p, .account-modal-card li {
-  margin: 6px 0;
-}
-
-.account-modal-card ul {
-  padding-left: 20px;
-}
-
-.account-modal-card button {
-  margin-top: 20px;
-  width: 100%;
-}
-
-/* Active state */
-.account-modal-active,
-.transactions-modal-active {
-  display: flex;
-}
-
-</style>
-
-
-
 </main>
-
 
 
 
 <!-- BALANCE CARD -->
 <div class="card balance-card">
   <h3>Available Balance</h3>
-  <h1 id="balance">$10,000.00</h1>
-  <button class="btn" id="changePinBtn">Change Transfer PIN</button>
+  <h1 id="balance">$0.00</h1>
 </div>
-
 
 <div class="card transfer-card">
   <h2>Transfer & Pay</h2>
@@ -388,94 +317,19 @@
 </div>
 
 
+
+<!-- TRANSFER HISTORY CARD -->
 <div class="card transfer-history">
   <h3>Transfer History</h3>
-
-  <div class="history-item"
-       data-ref="TRX-430912"
-       data-name="Olivia Brown"
-       data-bank="Bank of America (USA)"
-       data-amount="$1,250.00"
-       data-status="Completed">
-    <div>
-      <strong>Olivia Brown</strong>
-      <span>Bank of America (USA) • Jan 19, 2026</span>
-    </div>
-    <div class="amount">$1,250.00</div>
-  </div>
-
-  <div class="history-item"
-       data-ref="TRX-319884"
-       data-name="Noah Wilson"
-       data-bank="HSBC (UK)"
-       data-amount="$540.00"
-       data-status="Completed">
-    <div>
-      <strong>Noah Wilson</strong>
-      <span>HSBC (UK) • Jan 15, 2026</span>
-    </div>
-    <div class="amount">$540.00</div>
-  </div>
-</div>
-
-
-<!-- PIN Success Modal -->
-<div class="pin-modal hidden" id="pinSuccessModal">
-  <div class="pin-modal-card">
-    <h3>Success</h3>
-    <p>Transfer PIN has been successfully changed.</p>
-    <button class="btn blue" id="closePinSuccess">Close</button>
-  </div>
-</div>
-
-<!-- PIN Error Modal -->
-<div class="pin-modal hidden" id="pinErrorModal">
-  <div class="pin-modal-card">
-    <h3>Error</h3>
-    <p id="pinErrorMessage">PIN error</p>
-    <button class="btn blue" id="closePinError">Close</button>
+  <div id="historyList">
+    <p>No transfers yet</p>
   </div>
 </div>
 
 
 
-<div class="receipt-modal hidden" id="receiptModal">
-  <div class="receipt-card">
-    <h3>Transfer Receipt</h3>
-
-    <div class="receipt-row"><span>Reference</span><strong id="rRef"></strong></div>
-    <div class="receipt-row"><span>Recipient</span><strong id="rName"></strong></div>
-    <div class="receipt-row"><span>Bank</span><strong id="rBank"></strong></div>
-    <div class="receipt-row"><span>Amount</span><strong id="rAmount"></strong></div>
-    <div class="receipt-row"><span>Status</span><strong id="rStatus" class="success"></strong></div>
-
-    <button class="btn blue close-receipt">Close</button>
-  </div>
-</div>
 
 
-<div class="receipt-modal hidden" id="pinModal">
-  <div class="receipt-card">
-    <h3>Enter Transfer PIN</h3>
-    <input type="password" id="transferPin" maxlength="4" placeholder="****" />
-    <button class="btn blue" id="confirmPin">Confirm</button>
-    <button class="btn close-receipt" id="cancelPin">Cancel</button>
-  </div>
-</div>
-
-
-<div class="receipt-modal hidden" id="changePinModal">
-  <div class="receipt-card">
-    <h3>Change Transfer PIN</h3>
-
-    <input type="password" id="oldPin" placeholder="Old PIN" maxlength="4" />
-    <input type="password" id="newPin" placeholder="New PIN" maxlength="4" />
-    <input type="password" id="confirmNewPin" placeholder="Confirm New PIN" maxlength="4" />
-
-    <button class="btn blue" id="saveNewPin">Save PIN</button>
-    <button class="btn close-receipt" id="cancelChangePin">Cancel</button>
-  </div>
-</div>
 
 
 
@@ -558,13 +412,7 @@
       <button class="support-btn" data-support="chat">Start Chat</button>
     </div>
 
-    <!-- <div class="support-card">
-      <i class="fa-solid fa-envelope"></i>
-      <h4>Email Support</h4>
-      <p>Send us an email and we’ll respond within 24 hours.</p>
-      <button class="support-btn" data-support="email">Contact Us</button>
-    </div> -->
-
+    
     <div class="support-card">
   <i class="fa-solid fa-envelope"></i>
   <h4>Email Support</h4>
@@ -659,322 +507,10 @@
   });
 </script>
 
-<script>
 
-document.addEventListener("DOMContentLoaded", () => {
-
-  let balance = 100000;
-  let transferPin = "1234";
-  let pendingTransfer = null;
-
-  const balanceEl = document.getElementById("balance");
-  const form = document.getElementById("transferForm");
-  const historyContainer = document.querySelector(".transfer-history");
-
-  const receiptModal = document.getElementById("receiptModal");
-  const pinModal = document.getElementById("pinModal");
-  const changePinModal = document.getElementById("changePinModal");
-
-  const rRef = document.getElementById("rRef");
-  const rName = document.getElementById("rName");
-  const rBank = document.getElementById("rBank");
-  const rAmount = document.getElementById("rAmount");
-  const rStatus = document.getElementById("rStatus");
-
-  const oldPin = document.getElementById("oldPin");
-  const newPin = document.getElementById("newPin");
-  const confirmNewPin = document.getElementById("confirmNewPin");
-  const saveNewPin = document.getElementById("saveNewPin");
-  const cancelChangePin = document.getElementById("cancelChangePin");
-  const changePinBtn = document.getElementById("changePinBtn");
-
-  const pinSuccessModal = document.getElementById("pinSuccessModal");
-  const closePinSuccess = document.getElementById("closePinSuccess");
-
-  const pinErrorModal = document.getElementById("pinErrorModal");
-  const closePinError = document.getElementById("closePinError");
-  const pinErrorMessage = document.getElementById("pinErrorMessage");
-
-  // NEW: Transfer on Hold Modal
-  const transferHoldModal = document.getElementById("transferHoldModal");
-  const closeTransferHold = document.getElementById("closeTransferHold");
-
-  const transferPinInput = document.getElementById("transferPin");
-  const confirmPinBtn = document.getElementById("confirmPin");
-
-  /* ====== UTILITY FUNCTIONS ====== */
-  function updateBalance() {
-    balanceEl.textContent = `$${balance.toLocaleString()}`;
-  }
-
-  function generateRef() {
-    return "TRX-" + Math.floor(100000 + Math.random() * 900000);
-  }
-
-  function dateNow() {
-    return new Date().toLocaleDateString("en-US", {
-      month: "short", day: "numeric", year: "numeric"
-    });
-  }
-
-  function attachReceipt(item) {
-    item.onclick = () => {
-      rRef.textContent = item.dataset.ref;
-      rName.textContent = item.dataset.name;
-      rBank.textContent = item.dataset.bank;
-      rAmount.textContent = item.dataset.amount;
-      rStatus.textContent = item.dataset.status;
-      receiptModal.classList.remove("hidden");
-    };
-  }
-
-  document.querySelectorAll(".history-item").forEach(attachReceipt);
-  updateBalance();
-
-  /* ====== TRANSFER FORM ====== */
-  form.onsubmit = (e) => {
-    e.preventDefault();
-    const amt = Number(document.getElementById("amount").value);
-
-    if (amt > balance) {
-      pinErrorMessage.textContent = "Insufficient balance.";
-      pinErrorModal.classList.add("pin-modal-active");
-      return;
-    }
-
-    pendingTransfer = {
-      name: document.getElementById("accountName").value,
-      bank: document.getElementById("bank").value,
-      amount: amt,
-      amountText: `$${amt.toLocaleString()}`,
-      ref: generateRef(),
-      date: dateNow()
-    };
-
-    transferPinInput.value = "";
-    pinModal.classList.remove("hidden");
-  };
-
-  /* ====== CONFIRM TRANSFER PIN ====== */
-  confirmPinBtn.onclick = () => {
-    if (transferPinInput.value !== transferPin) {
-      pinErrorMessage.textContent = "Incorrect transfer PIN.";
-      pinErrorModal.classList.add("pin-modal-active");
-      return;
-    }
-
-    pinModal.classList.add("hidden");
-
-    // SHOW TRANSFER ON HOLD MODAL
-    transferHoldModal.classList.add("pin-modal-active");
-  };
-
-  /* ====== CHANGE PIN MODAL ====== */
-  changePinBtn.onclick = () => {
-    oldPin.value = "";
-    newPin.value = "";
-    confirmNewPin.value = "";
-    changePinModal.classList.remove("hidden");
-  };
-
-  saveNewPin.onclick = () => {
-    if (oldPin.value !== transferPin) {
-      pinErrorMessage.textContent = "Old PIN is incorrect.";
-      pinErrorModal.classList.add("pin-modal-active");
-      return;
-    }
-
-    if (newPin.value !== confirmNewPin.value || newPin.value.length !== 4) {
-      pinErrorMessage.textContent = "New PIN mismatch or invalid. Must be 4 digits.";
-      pinErrorModal.classList.add("pin-modal-active");
-      return;
-    }
-
-    transferPin = newPin.value;
-    changePinModal.classList.add("hidden");
-    pinSuccessModal.classList.add("pin-modal-active");
-  };
-
-  cancelChangePin.onclick = () => changePinModal.classList.add("hidden");
-
-  /* ====== CLOSE MODALS ====== */
-  closePinSuccess.onclick = () => pinSuccessModal.classList.remove("pin-modal-active");
-  closePinError.onclick = () => pinErrorModal.classList.remove("pin-modal-active");
-  cancelPin.onclick = () => pinModal.classList.add("pin-modal-active");
-  closeTransferHold.onclick = () => transferHoldModal.classList.remove("pin-modal-active");
-
-  document.querySelectorAll(".close-receipt").forEach(btn => {
-    btn.onclick = () => btn.closest(".receipt-modal").classList.add("hidden");
-  });
-
-  /* ====== CLICK OUTSIDE TO CLOSE MODAL ====== */
-  function enableOutsideClick(modal, activeClass) {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) {
-        modal.classList.remove(activeClass);
-      }
-    });
-  }
-
-  enableOutsideClick(pinModal, "pin-modal-active");
-  enableOutsideClick(pinSuccessModal, "pin-modal-active");
-  enableOutsideClick(pinErrorModal, "pin-modal-active");
-  enableOutsideClick(transferHoldModal, "pin-modal-active");
-  enableOutsideClick(receiptModal, "hidden");
-
-});
-
-
-</script>
-
-<script>
-  document.getElementById('viewDetails').addEventListener('click', function(e){
-  e.preventDefault();
-  document.getElementById('accountDetailsModal').classList.add('account-modal-active');
-});
-
-document.getElementById('viewAll').addEventListener('click', function(e){
-  e.preventDefault();
-  document.getElementById('transactionsModal').classList.add('transactions-modal-active');
-});
-
-document.querySelectorAll('.account-modal-close').forEach(function(btn){
-  btn.addEventListener('click', function(){
-    const modal = this.closest('.account-modal, .transactions-modal');
-    modal.classList.remove('account-modal-active', 'transactions-modal-active');
-  });
-});
-</script>
 
 
 <script>
-
-  document.addEventListener("DOMContentLoaded", () => {
-
-  let transferPin = "1234"; // default demo PIN
-  let pendingAction = null; // store form data
-
-  // Modals
-  const pinModal = document.getElementById("pinModal");
-  const transferPinInput = document.getElementById("transferPin");
-  const confirmPinBtn = document.getElementById("confirmPin");
-  const cancelPin = document.getElementById("cancelPin");
-
-  const pinErrorModal = document.getElementById("pinErrorModal");
-  const closePinError = document.getElementById("closePinError");
-
-  const accountHoldModal = document.getElementById("accountHoldModal");
-  const closeAccountHold = document.getElementById("closeAccountHold");
-
-  // Buttons
-  const transferBtn = document.querySelector(".transfer-card button");
-  const billPayBtn = document.querySelector(".billpay-card .billpay-btn");
-
-  // ===== OPEN PIN MODAL =====
-  function openPinModal(formData) {
-    pendingAction = formData; // save data if needed
-    transferPinInput.value = "";
-    pinModal.classList.remove("hidden");
-  }
-
-  // Quick Transfer click
-  transferBtn.onclick = () => {
-    const amountInput = document.querySelector(".transfer-card input[type='number']");
-    if (!amountInput.value || Number(amountInput.value) <= 0) return;
-    openPinModal({ type: "transfer", amount: amountInput.value });
-  };
-
-  // Bill Pay click
-  billPayBtn.onclick = () => {
-    const amountInput = document.querySelector(".billpay-card input[type='number']");
-    if (!amountInput.value || Number(amountInput.value) <= 0) return;
-    openPinModal({ type: "billpay", amount: amountInput.value });
-  };
-
-  // ===== CONFIRM PIN =====
-  confirmPinBtn.onclick = () => {
-    if (transferPinInput.value !== transferPin) {
-      pinModal.classList.add("hidden");
-      pinErrorModal.classList.remove("hidden");
-      return;
-    }
-    pinModal.classList.add("hidden");
-    accountHoldModal.classList.remove("hidden");
-  };
-
-  // ===== CLOSE MODALS =====
-  cancelPin.onclick = () => pinModal.classList.add("hidden");
-  closePinError.onclick = () => pinErrorModal.classList.add("hidden");
-  closeAccountHold.onclick = () => accountHoldModal.classList.add("hidden");
-
-  // ===== CLICK OUTSIDE TO CLOSE =====
-  function enableOutsideClick(modal) {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) modal.classList.add("hidden");
-    });
-  }
-
-  enableOutsideClick(pinModal);
-  enableOutsideClick(pinErrorModal);
-  enableOutsideClick(accountHoldModal);
-
-});
-
-</script>
-
-
-<script>
-  const servicesModal = document.getElementById("servicesModal");
-const serviceTitle = document.getElementById("serviceTitle");
-const serviceContent = document.getElementById("serviceContent");
-const closeServiceModal = document.getElementById("closeServiceModal");
-
-document.querySelectorAll(".service-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    const type = btn.dataset.service;
-
-    const contentMap = {
-      account: {
-        title: "Account Management",
-        text: "View balances, manage accounts, and update personal details securely."
-      },
-      transfer: {
-        title: "Money Transfers",
-        text: "Send funds securely. Some transfers may require account upgrade."
-      },
-      bill: {
-        title: "Bill Payments",
-        text: "Pay electricity, internet, and other bills directly from your account."
-      },
-      security: {
-        title: "Security & PIN",
-        text: "Manage your transfer PIN and keep your account protected."
-      },
-      history: {
-        title: "Transaction History",
-        text: "Access detailed records of all your past transactions."
-      },
-      upgrade: {
-        title: "Account Upgrade Required",
-        text: "Your account has limits. Upgrade now to unlock full transfer features."
-      }
-    };
-
-    serviceTitle.textContent = contentMap[type].title;
-    serviceContent.textContent = contentMap[type].text;
-
-    servicesModal.classList.remove("hidden");
-  });
-});
-
-closeServiceModal.onclick = () => {
-  servicesModal.classList.add("hidden");
-};
-
-</script>
-
-<script>
- 
 
 // ---------------- Firebase Init ----------------
 const firebaseConfig = {
@@ -989,53 +525,53 @@ if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
 const db = firebase.firestore();
 
-
-
-
-
+// ---------------- Chat Elements ----------------
 const chatWidget = document.getElementById("chatWidget");
 const chatMessages = document.getElementById("chatMessages");
 const chatForm = document.getElementById("chatForm");
 const chatInput = document.getElementById("chatInput");
 const closeChat = document.getElementById("closeChat");
 
-const selectedChatId = "chat_user1"; 
+// Get logged-in user ID dynamically
+let currentUserId = null;
+firebase.auth().onAuthStateChanged(user => {
+  if (user) currentUserId = user.uid;
+});
 
-
+// ---------------- Support Buttons ----------------
 document.querySelectorAll(".support-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
+  btn.addEventListener("click", async () => {
     const type = btn.dataset.support;
 
-    
+    // ---------------- FAQ ----------------
     if (type === "faq") {
       const faqSection = document.getElementById("faqSection");
-      if (faqSection) {
-        faqSection.classList.toggle("hidden");
-      }
+      if (faqSection) faqSection.classList.toggle("hidden");
     }
 
-    
+    // ---------------- Chat ----------------
     if (type === "chat") {
-      
+      if (!currentUserId) return alert("Please login to start chat");
+
       chatWidget.classList.remove("hidden");
 
-      
-      const chatRef = db.collection("chats").doc(selectedChatId);
-      chatRef.set({}, { merge: true });
+      // Each user has their own chat document
+      const chatRef = db.collection("chats").doc(currentUserId);
+      await chatRef.set({ userId: currentUserId, createdAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
 
-      
       const messagesRef = chatRef.collection("messages");
-      messagesRef.limit(1).get().then(snapshot => {
-        if (snapshot.empty) {
-          messagesRef.add({
-            sender: "system",
-            message: "Chat initialized",
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
-      });
 
-      
+      // Initialize if empty
+      const snapshot = await messagesRef.limit(1).get();
+      if (snapshot.empty) {
+        await messagesRef.add({
+          sender: "system",
+          message: "Chat initialized",
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+
+      // Attach listener (only once)
       if (!chatWidget.dataset.listenerAttached) {
         messagesRef.orderBy("timestamp").onSnapshot(snapshot => {
           chatMessages.innerHTML = "";
@@ -1048,7 +584,6 @@ document.querySelectorAll(".support-btn").forEach(btn => {
             else if (msg.sender === "user") div.className = "user";
             else div.className = "system";
 
-            
             div.style.padding = "6px 10px";
             div.style.borderRadius = "8px";
             div.style.margin = "4px 0";
@@ -1065,13 +600,13 @@ document.querySelectorAll(".support-btn").forEach(btn => {
         chatWidget.dataset.listenerAttached = true;
       }
 
-     
-      chatForm.onsubmit = e => {
+      // ---------------- Send Message ----------------
+      chatForm.onsubmit = async e => {
         e.preventDefault();
         const message = chatInput.value.trim();
         if (!message) return;
 
-        messagesRef.add({
+        await messagesRef.add({
           sender: "user",
           message,
           timestamp: firebase.firestore.FieldValue.serverTimestamp()
@@ -1080,25 +615,167 @@ document.querySelectorAll(".support-btn").forEach(btn => {
         chatInput.value = "";
       };
 
-      
+      // ---------------- Close Chat ----------------
       closeChat.onclick = () => chatWidget.classList.add("hidden");
     }
 
-    
+    // ---------------- Email ----------------
     if (type === "email") {
-      
       const parent = btn.closest(".support-card");
       const info = parent.querySelector(".email-info");
-      if (info) {
-        info.style.display = "block";
-      }
+      if (info) info.style.display = "block";
     }
   });
 });
 
 
 
+
 </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const auth = firebase.auth();
+  const db = firebase.firestore();
+
+  const pinModal = document.getElementById("pinModal");
+  const transferPinInput = document.getElementById("transferPin");
+  const confirmPinBtn = document.getElementById("confirmPin");
+  const cancelPinBtn = document.getElementById("cancelPin");
+  const pinErrorModal = document.getElementById("pinErrorModal");
+  const closePinErrorBtn = document.getElementById("closePinError");
+
+  let currentUser = null;
+  let pinAction = "verify"; // can be "create", "change", or "verify"
+  let transferCallback = null; // callback after PIN verified
+
+  // ----------------------------
+  // Get current user info
+  // ----------------------------
+  auth.onAuthStateChanged(user => {
+    if (user) currentUser = user;
+  });
+
+  // ----------------------------
+  // Open PIN modal for creation/change/verification
+  // ----------------------------
+  function openPinModal(action = "verify", callback = null) {
+    pinAction = action;
+    transferCallback = callback;
+    transferPinInput.value = "";
+    pinModal.classList.remove("hidden");
+
+    if (pinAction === "create") {
+      pinModal.querySelector("h3").textContent = "Create Your Transfer PIN";
+      confirmPinBtn.textContent = "Set PIN";
+    } else if (pinAction === "change") {
+      pinModal.querySelector("h3").textContent = "Change Your Transfer PIN";
+      confirmPinBtn.textContent = "Change PIN";
+    } else {
+      pinModal.querySelector("h3").textContent = "Enter Transfer PIN";
+      confirmPinBtn.textContent = "Confirm";
+    }
+  }
+
+  // ----------------------------
+  // Confirm PIN button
+  // ----------------------------
+  confirmPinBtn.addEventListener("click", async () => {
+    const pin = transferPinInput.value.trim();
+    if (pin.length !== 4 || isNaN(pin)) {
+      alert("PIN must be 4 digits");
+      return;
+    }
+
+    try {
+      const pinDocRef = db.collection("pins").doc(currentUser.uid);
+      const pinDoc = await pinDocRef.get();
+
+      if (pinAction === "create") {
+        if (pinDoc.exists) {
+          alert("You already have a PIN. Use change PIN instead.");
+          return;
+        }
+        await pinDocRef.set({ pin });
+        alert("PIN created successfully!");
+        pinModal.classList.add("hidden");
+      }
+
+      else if (pinAction === "change") {
+        if (!pinDoc.exists) {
+          alert("No PIN found. Create a PIN first.");
+          return;
+        }
+        await pinDocRef.update({ pin });
+        alert("PIN changed successfully!");
+        pinModal.classList.add("hidden");
+      }
+
+      else if (pinAction === "verify") {
+        if (!pinDoc.exists || pinDoc.data().pin !== pin) {
+          pinModal.classList.add("hidden");
+          pinErrorModal.classList.remove("hidden");
+          return;
+        }
+        pinModal.classList.add("hidden");
+        if (transferCallback) transferCallback();
+      }
+
+    } catch (err) {
+      alert("Error with PIN: " + err.message);
+    }
+  });
+
+  // ----------------------------
+  // Cancel PIN modal
+  // ----------------------------
+  cancelPinBtn.addEventListener("click", () => {
+    pinModal.classList.add("hidden");
+  });
+
+  // ----------------------------
+  // Close PIN Error
+  // ----------------------------
+  closePinErrorBtn.addEventListener("click", () => {
+    pinErrorModal.classList.add("hidden");
+  });
+
+  // ----------------------------
+  // Example usage: create PIN after signup
+  // ----------------------------
+  auth.onAuthStateChanged(async user => {
+    if (user) {
+      // Check if PIN exists
+      const pinDoc = await db.collection("pins").doc(user.uid).get();
+      if (!pinDoc.exists) {
+        openPinModal("create");
+      }
+    }
+  });
+
+  // ----------------------------
+  // Example usage: change PIN
+  // ----------------------------
+  // You can trigger this with a button click somewhere in your dashboard
+  // changePinBtn.addEventListener("click", () => openPinModal("change"));
+
+  // ----------------------------
+  // Example usage: verify PIN before transfer
+  // ----------------------------
+  // transferButton.addEventListener("click", () => {
+  //   openPinModal("verify", () => {
+  //     console.log("PIN verified! Proceed with transfer.");
+  //   });
+  // });
+});
+
+</script>
+
+
+
+
+
+
 
 
 </body>

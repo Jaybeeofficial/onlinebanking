@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin – User Accounts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 260px;
+  background: #007BFF;
+  color: white;
+  padding: 15px;
+  overflow-y: auto;
+}
+.sidebar h2 {
+  margin-top: 0;
+}
+.user-item {
+  background: rgba(255,255,255,0.2);
+  padding: 10px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+.user-item:hover {
+  background: rgba(255,255,255,0.35);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 20px;
+  background: #f5f5f5;
+}
+
+/* Account panel */
+#accountInfo {
+  display: none;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+}
+
+#accountInfo label {
+  display: block;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+#accountInfo input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+}
+
+#saveBalancesBtn {
+  margin-top: 15px;
+  padding: 10px;
+  width: 100%;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+  <h2>Users</h2>
+  <div id="usersList">Loading users...</div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+  <h2>Account Management</h2>
+
+  <div id="accountInfo">
+    <strong id="accountName"></strong>
+
+    <label>Checking Balance</label>
+    <input type="number" id="adminCheckingInput" step="0.01">
+
+    <label>Savings Balance</label>
+    <input type="number" id="adminSavingsInput" step="0.01">
+
+    <label>Credit Card Balance</label>
+    <input type="number" id="adminCreditInput" step="0.01">
+
+    <button id="saveBalancesBtn">Save Balances</button>
+  </div>
+</div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+/* 🔥 Firebase Config */
+const firebaseConfig = {
+  apiKey: "AIzaSyBR9H69WILmZ0JmlDopihAk_zhEtDpIsFw",
+  authDomain: "onlinebanking-347dd.firebaseapp.com",
+  projectId: "onlinebanking-347dd",
+  storageBucket: "onlinebanking-347dd.appspot.com",
+  messagingSenderId: "1047597422756",
+  appId: "1:1047597422756:web:2b08b2ca528cfd3e4cee31"
+};
+
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+/* ------------------ ELEMENTS ------------------ */
+const usersList = document.getElementById("usersList");
+const accountInfo = document.getElementById("accountInfo");
+const accountName = document.getElementById("accountName");
+
+const checkingInput = document.getElementById("adminCheckingInput");
+const savingsInput = document.getElementById("adminSavingsInput");
+const creditInput = document.getElementById("adminCreditInput");
+const saveBtn = document.getElementById("saveBalancesBtn");
+
+let selectedUserId = null;
+
+/* ------------------ LOAD USERS ------------------ */
+db.collection("users").onSnapshot(snapshot => {
+  usersList.innerHTML = "";
+
+  snapshot.forEach(doc => {
+    const user = doc.data();
+    const div = document.createElement("div");
+    div.className = "user-item";
+    div.textContent = user.fullName || "Unnamed User";
+
+    div.onclick = () => openUserAccount(doc.id, user);
+    usersList.appendChild(div);
+  });
+
+  if (snapshot.empty) {
+    usersList.textContent = "No users yet.";
+  }
+});
+
+/* ------------------ OPEN USER ------------------ */
+function openUserAccount(userId, userData) {
+  selectedUserId = userId;
+  accountInfo.style.display = "block";
+
+  accountName.textContent = `Account: ${userData.fullName || "User"}`;
+
+  const balances = userData.balances || {};
+
+  checkingInput.value = balances.checking ?? 0;
+  savingsInput.value = balances.savings ?? 0;
+  creditInput.value = balances.credit ?? 0;
+}
+
+/* ------------------ SAVE BALANCES ------------------ */
+saveBtn.onclick = () => {
+  if (!selectedUserId) return;
+
+  db.collection("users").doc(selectedUserId).set({
+    balances: {
+      checking: parseFloat(checkingInput.value) || 0,
+      savings: parseFloat(savingsInput.value) || 0,
+      credit: parseFloat(creditInput.value) || 0
+    }
+  }, { merge: true })
+  .then(() => alert("Balances saved"))
+  .catch(err => alert(err.message));
+};
+</script>
+
+</body>
+</html>

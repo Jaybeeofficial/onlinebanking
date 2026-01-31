@@ -1,250 +1,260 @@
-// document.addEventListener("DOMContentLoaded", () => {
 
-  
-//   const firebaseConfig = {
-//     apiKey: "AIzaSyBR9H69WILmZ0JmlDopihAk_zhEtDpIsFw",
-//     authDomain: "onlinebanking-347dd.firebaseapp.com",
-//     projectId: "onlinebanking-347dd",
-//     storageBucket: "onlinebanking-347dd.appspot.com",
-//     messagingSenderId: "1047597422756",
-//     appId: "1:1047597422756:web:2b08b2ca528cfd3e4cee31"
-//   };
+const firebaseConfig = {
+  apiKey: "AIzaSyBR9H69WILmZ0JmlDopihAk_zhEtDpIsFw",
+  authDomain: "onlinebanking-347dd.firebaseapp.com",
+  projectId: "onlinebanking-347dd",
+  storageBucket: "onlinebanking-347dd.appspot.com",
+  messagingSenderId: "1047597422756",
+  appId: "1:1047597422756:web:2b08b2ca528cfd3e4cee31"
+};
 
-//   if (!firebase.apps.length) {
-//     firebase.initializeApp(firebaseConfig);
-//   }
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 
-//   const auth = firebase.auth();
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-  
-//   const loginModal = document.getElementById("loginModal");
-//   const dashboard = document.getElementById("dashboard");
+// ----------------------------
+// Element References
+// ----------------------------
+const loginModal = document.getElementById("loginModal");
+const dashboard = document.getElementById("dashboard");
 
-//   const loginForm = document.getElementById("loginForm");
-//   const forgotForm = document.getElementById("forgotForm");
+const loginForm = document.getElementById("loginForm");
+const signupForm = document.getElementById("signupForm");
+const forgotForm = document.getElementById("forgotForm");
 
-//   const emailInput = document.getElementById("username");
-//   const passwordInput = document.getElementById("password");
-//   const forgotEmailInput = document.getElementById("email");
+const emailInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
 
-//   const showForgot = document.getElementById("showForgot");
-//   const backToLogin = document.getElementById("backToLogin");
-//   const logoutBtn = document.querySelector(".logout");
+const signupName = document.getElementById("signupName");
+const signupEmail = document.getElementById("signupEmail");
+const signupPassword = document.getElementById("signupPassword");
+const signupError = document.getElementById("signupError");
 
+const forgotEmailInput = document.getElementById("email");
 
-  
-//   function switchForm(hideForm, showForm) {
-//     if (!hideForm || !showForm) return;
-//     hideForm.classList.add("hidden");
-//     showForm.classList.remove("hidden");
-//   }
+const showSignup = document.getElementById("showSignup");
+const showForgot = document.getElementById("showForgot");
+const backToLogin = document.getElementById("backToLogin");
+const backToLoginFromSignup = document.getElementById("backToLoginFromSignup");
 
-//   if (loginForm) {
-//     loginForm.addEventListener("submit", (e) => {
-//       e.preventDefault();
+const checkingNumber = document.getElementById("checkingNumber");
+const savingsNumber = document.getElementById("savingsNumber");
+const creditNumber = document.getElementById("creditNumber");
 
-//       const email = emailInput?.value.trim();
-//       const password = passwordInput?.value.trim();
+const checkingBalance = document.getElementById("checkingBalance");
+const savingsBalance = document.getElementById("savingsBalance");
+const creditBalance = document.getElementById("creditBalance");
 
-//       if (!email || !password) {
-//         alert("Please enter email and password");
-//         return;
-//       }
+const historyList = document.getElementById("historyList");
 
-//       auth.signInWithEmailAndPassword(email, password)
-//         .catch(error => alert(error.message));
-//     });
-//   }
+// Welcome name
+const welcomeName = document.getElementById("welcomeName");
 
- 
-//   if (forgotForm) {
-//     forgotForm.addEventListener("submit", (e) => {
-//       e.preventDefault();
+// Account Details Modal
+const accountModal = document.getElementById("accountDetailsModal");
+const modalCheckingNumber = document.getElementById("modalCheckingNumber");
+const modalCheckingBalance = document.getElementById("modalCheckingBalance");
+const modalOpened = document.getElementById("modalOpened");
+const modalBranch = document.getElementById("modalBranch");
+const accountModalClose = accountModal?.querySelector(".account-modal-close");
+const viewDetailsBtn = document.getElementById("viewDetails");
 
-//       const email = forgotEmailInput?.value.trim();
-//       if (!email) {
-//         alert("Please enter your email");
-//         return;
-//       }
+// Transactions Modal
+const transactionsModal = document.getElementById("transactionsModal");
+const transactionsModalClose = transactionsModal?.querySelector(".account-modal-close");
+const viewAllBtn = document.getElementById("viewAll");
+const modalTransactionsList = document.getElementById("modalTransactionsList");
 
-//       auth.sendPasswordResetEmail(email)
-//         .then(() => {
-//           alert("Password reset email sent");
-//           switchForm(forgotForm, loginForm);
-//         })
-//         .catch(error => alert(error.message));
-//     });
-//   }
+// ----------------------------
+// Helper Functions
+// ----------------------------
+function switchForm(hideForm, showForm) {
+  hideForm?.classList.add("hidden");
+  showForm?.classList.remove("hidden");
+}
 
-  
-//   if (showForgot) {
-//     showForgot.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       switchForm(loginForm, forgotForm);
-//     });
-//   }
+function generateAccountNumber() {
+  return Math.floor(1000000000 + Math.random() * 9000000000).toString();
+}
 
-//   if (backToLogin) {
-//     backToLogin.addEventListener("click", (e) => {
-//       e.preventDefault();
-//       switchForm(forgotForm, loginForm);
-//     });
-//   }
+// ----------------------------
+// LOGIN
+// ----------------------------
+loginForm?.addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = emailInput?.value.trim();
+  const password = passwordInput?.value.trim();
+  if (!email || !password) return alert("Enter email and password");
 
-  
-//   if (logoutBtn) {
-//     logoutBtn.addEventListener("click", () => {
-//       auth.signOut();
-//     });
-//   }
-
-  
-//   auth.onAuthStateChanged((user) => {
-//     if (user) {
-//       loginModal?.classList.add("hidden");
-//       dashboard?.classList.remove("hidden");
-//     } else {
-//       dashboard?.classList.add("hidden");
-//       loginModal?.classList.remove("hidden");
-//     }
-//   });
-
-// });
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  // ----------------------------
-  // Firebase Initialization
-  // ----------------------------
-  const firebaseConfig = {
-    apiKey: "AIzaSyBR9H69WILmZ0JmlDopihAk_zhEtDpIsFw",
-    authDomain: "onlinebanking-347dd.firebaseapp.com",
-    projectId: "onlinebanking-347dd",
-    storageBucket: "onlinebanking-347dd.appspot.com",
-    messagingSenderId: "1047597422756",
-    appId: "1:1047597422756:web:2b08b2ca528cfd3e4cee31"
-  };
-
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
+  try {
+    await auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    await auth.signInWithEmailAndPassword(email, password);
+  } catch (err) {
+    alert(err.message);
   }
-
-  const auth = firebase.auth();
-
-  // ----------------------------
-  // Elements
-  // ----------------------------
-  const loginModal = document.getElementById("loginModal");
-  const dashboard = document.getElementById("dashboard");
-
-  const loginForm = document.getElementById("loginForm");
-  const forgotForm = document.getElementById("forgotForm");
-
-  const emailInput = document.getElementById("username");
-  const passwordInput = document.getElementById("password");
-  const forgotEmailInput = document.getElementById("email");
-
-  const showForgot = document.getElementById("showForgot");
-  const backToLogin = document.getElementById("backToLogin");
-  const logoutBtn = document.querySelector(".logout");
-
-  // ----------------------------
-  // Helper: Switch Forms
-  // ----------------------------
-  function switchForm(hideForm, showForm) {
-    if (!hideForm || !showForm) return;
-    hideForm.classList.add("hidden");
-    showForm.classList.remove("hidden");
-  }
-
-  // ----------------------------
-  // LOGIN
-  // ----------------------------
-  if (loginForm) {
-    loginForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const email = emailInput?.value.trim();
-      const password = passwordInput?.value.trim();
-
-      if (!email || !password) {
-        alert("Please enter email and password");
-        return;
-      }
-
-      // ✅ Set persistence to LOCAL so session stays even after closing browser
-      auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-        .then(() => {
-          return auth.signInWithEmailAndPassword(email, password);
-        })
-        .catch(error => alert(error.message));
-    });
-  }
-
-  // ----------------------------
-  // FORGOT PASSWORD
-  // ----------------------------
-  if (forgotForm) {
-    forgotForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const email = forgotEmailInput?.value.trim();
-      if (!email) {
-        alert("Please enter your email");
-        return;
-      }
-
-      auth.sendPasswordResetEmail(email)
-        .then(() => {
-          alert("Password reset email sent");
-          switchForm(forgotForm, loginForm);
-        })
-        .catch(error => alert(error.message));
-    });
-  }
-
-  // ----------------------------
-  // FORM SWITCH LINKS
-  // ----------------------------
-  if (showForgot) {
-    showForgot.addEventListener("click", (e) => {
-      e.preventDefault();
-      switchForm(loginForm, forgotForm);
-    });
-  }
-
-  if (backToLogin) {
-    backToLogin.addEventListener("click", (e) => {
-      e.preventDefault();
-      switchForm(forgotForm, loginForm);
-    });
-  }
-
-  // ----------------------------
-  // LOGOUT
-  // ----------------------------
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      auth.signOut();
-    });
-  }
-
-  // ----------------------------
-  // AUTH STATE (UI CONTROL)
-  // ----------------------------
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      loginModal?.classList.add("hidden");
-      dashboard?.classList.remove("hidden");
-    } else {
-      dashboard?.classList.add("hidden");
-      loginModal?.classList.remove("hidden");
-    }
-  });
-
 });
 
+// ----------------------------
+// SIGNUP
+// ----------------------------
+signupForm?.addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = signupName?.value.trim();
+  const email = signupEmail?.value.trim();
+  const password = signupPassword?.value.trim();
+  if (!name || !email || !password) {
+    if (signupError) signupError.textContent = "All fields required";
+    return;
+  }
 
+  const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+  const defaultBranch = "Main Branch";
 
+  try {
+    const cred = await auth.createUserWithEmailAndPassword(email, password);
+
+    await db.collection("users").doc(cred.user.uid).set({
+      fullName: name,
+      email,
+      checking: { number: generateAccountNumber(), balance: 0, opened: today, branch: defaultBranch },
+      savings: { number: generateAccountNumber(), balance: 0, opened: today, branch: defaultBranch },
+      credit: { number: generateAccountNumber(), balance: 0, opened: today, branch: defaultBranch },
+      transferHistory: []
+    });
+
+    signupForm.reset();
+    switchForm(signupForm, loginForm);
+  } catch (err) {
+    if (signupError) signupError.textContent = err.message;
+  }
+});
+
+// ----------------------------
+// FORGOT PASSWORD
+// ----------------------------
+forgotForm?.addEventListener("submit", async e => {
+  e.preventDefault();
+  const email = forgotEmailInput?.value.trim();
+  if (!email) return alert("Enter your email");
+  try {
+    await auth.sendPasswordResetEmail(email);
+    alert("Password reset email sent");
+    switchForm(forgotForm, loginForm);
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
+// ----------------------------
+// FORM SWITCH LINKS
+// ----------------------------
+showSignup?.addEventListener("click", e => { e.preventDefault(); switchForm(loginForm, signupForm); });
+showForgot?.addEventListener("click", e => { e.preventDefault(); switchForm(loginForm, forgotForm); });
+backToLogin?.addEventListener("click", e => { e.preventDefault(); switchForm(forgotForm, loginForm); });
+backToLoginFromSignup?.addEventListener("click", e => { e.preventDefault(); switchForm(signupForm, loginForm); });
+
+// ----------------------------
+// AUTH STATE LISTENER
+// ----------------------------
+auth.onAuthStateChanged(async user => {
+  if (user) {
+    if (loginModal) loginModal.style.display = "none";
+    dashboard?.classList.remove("hidden");
+
+    const doc = await db.collection("users").doc(user.uid).get();
+    if (doc.exists) {
+      const data = doc.data();
+
+      // Update welcome name
+      if (welcomeName) welcomeName.textContent = data.fullName;
+
+      // Update account numbers and balances
+      if (checkingNumber) checkingNumber.textContent = data.checking.number;
+      if (savingsNumber) savingsNumber.textContent = data.savings.number;
+      if (creditNumber) creditNumber.textContent = data.credit.number;
+
+      if (checkingBalance) checkingBalance.textContent = `$${data.checking.balance.toFixed(2)}`;
+      if (savingsBalance) savingsBalance.textContent = `$${data.savings.balance.toFixed(2)}`;
+      if (creditBalance) creditBalance.textContent = `$${data.credit.balance.toFixed(2)}`;
+    }
+  } else {
+    if (loginModal) loginModal.style.display = "flex";
+    dashboard?.classList.add("hidden");
+
+    if (welcomeName) welcomeName.textContent = "";
+  }
+});
+
+// ----------------------------
+// LOGOUT
+// ----------------------------
+const logoutBtn = document.querySelector(".logout");
+logoutBtn?.addEventListener("click", async () => {
+  try {
+    await auth.signOut();
+    dashboard?.classList.add("hidden");
+    if (loginModal) loginModal.style.display = "flex";
+    if (welcomeName) welcomeName.textContent = "";
+  } catch (err) {
+    console.error(err);
+  }
+});
+
+// ----------------------------
+// VIEW DETAILS MODAL
+// ----------------------------
+viewDetailsBtn?.addEventListener("click", async e => {
+  e.preventDefault();
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const doc = await db.collection("users").doc(user.uid).get();
+  if (!doc.exists) return;
+
+  const data = doc.data();
+
+  if (modalCheckingNumber) modalCheckingNumber.textContent = data.checking.number;
+  if (modalCheckingBalance) modalCheckingBalance.textContent = `$${data.checking.balance.toFixed(2)}`;
+  if (modalOpened) modalOpened.textContent = data.checking.opened;
+  if (modalBranch) modalBranch.textContent = data.checking.branch;
+
+  accountModal?.classList.remove("account-modal-hidden");
+});
+
+accountModalClose?.addEventListener("click", () => {
+  accountModal?.classList.add("account-modal-hidden");
+});
+
+// ----------------------------
+// VIEW ALL TRANSACTIONS MODAL
+// ----------------------------
+viewAllBtn?.addEventListener("click", async e => {
+  e.preventDefault();
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const doc = await db.collection("users").doc(user.uid).get();
+  if (!doc.exists) return;
+
+  const data = doc.data();
+
+  if (modalTransactionsList) {
+    modalTransactionsList.innerHTML = "";
+    if (data.transferHistory && data.transferHistory.length) {
+      data.transferHistory.forEach(trx => {
+        const li = document.createElement("li");
+        li.textContent = `${trx.date} • ${trx.name} • ${trx.bank} • $${trx.amount}`;
+        modalTransactionsList.appendChild(li);
+      });
+    } else {
+      modalTransactionsList.innerHTML = "<li>No recent transactions yet</li>";
+    }
+  }
+
+  transactionsModal?.classList.remove("account-modal-hidden");
+});
+
+transactionsModalClose?.addEventListener("click", () => {
+  transactionsModal?.classList.add("account-modal-hidden");
+});
