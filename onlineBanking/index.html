@@ -772,6 +772,94 @@ document.querySelectorAll(".support-btn").forEach(btn => {
 </script>
 
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+  /* ===============================
+     SERVICES – LEARN MORE BUTTONS
+  =============================== */
+
+  const servicesModal = document.getElementById("servicesModal");
+  const serviceTitle = document.getElementById("serviceTitle");
+  const serviceContent = document.getElementById("serviceContent");
+  const closeServiceModal = document.getElementById("closeServiceModal");
+
+  const serviceInfo = {
+    account: "Manage your accounts, balances, and personal information securely.",
+    transfer: "Send money to local and international banks with real-time tracking.",
+    bill: "Pay utilities, subscriptions, and services easily.",
+    security: "Manage your transfer PIN and account security settings.",
+    history: "View your complete transaction history and receipts.",
+    upgrade: "Upgrade your account to unlock higher limits and premium features."
+  };
+
+  document.querySelectorAll(".service-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.service;
+      const cardTitle = btn.closest(".service-card")?.querySelector("h4")?.textContent;
+
+      serviceTitle.textContent = cardTitle || "Service Info";
+      serviceContent.textContent = serviceInfo[key] || "Information coming soon.";
+
+      servicesModal.classList.remove("hidden");
+    });
+  });
+
+  closeServiceModal?.addEventListener("click", () => {
+    servicesModal.classList.add("hidden");
+  });
+
+
+  /* ===============================
+     SUPPORT BUTTONS
+  =============================== */
+
+  // FAQ toggle
+  document.querySelectorAll('.support-btn[data-support="faq"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.getElementById("faqSection")?.classList.toggle("hidden");
+    });
+  });
+
+  // Email support toggle
+  document.querySelectorAll('.support-btn[data-support="email"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const info = btn.closest(".support-card")?.querySelector(".email-info");
+      if (info) {
+        info.style.display = info.style.display === "block" ? "none" : "block";
+      }
+    });
+  });
+
+
+  /* ===============================
+     CHAT OPEN / CLOSE
+  =============================== */
+
+  const chatWidget = document.getElementById("chatWidget");
+  const closeChatBtn = document.getElementById("closeChat");
+
+  document.querySelectorAll('.support-btn[data-support="chat"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      chatWidget?.classList.remove("hidden");
+    });
+  });
+
+  closeChatBtn?.addEventListener("click", () => {
+    chatWidget?.classList.add("hidden");
+  });
+
+
+  /* ===============================
+     SAFETY CHECK (DEBUG)
+  =============================== */
+  console.log("✅ Button handlers loaded successfully");
+
+});
+</script>
+
+
+
 
 
 
