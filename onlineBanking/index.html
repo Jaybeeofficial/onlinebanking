@@ -860,6 +860,52 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+<script>
+  window.onload = () => {
+  const checkingBalanceEl = document.getElementById("checkingBalance");
+  const savingsBalanceEl = document.getElementById("savingsBalance");
+  const creditBalanceEl = document.getElementById("creditBalance");
+  const balanceEl = document.getElementById("balance");
+
+  const checkingNumberEl = document.getElementById("checkingNumber");
+  const savingsNumberEl = document.getElementById("savingsNumber");
+  const creditNumberEl = document.getElementById("creditNumber");
+
+  auth.onAuthStateChanged(user => {
+    if(!user) return;
+
+    db.collection("users").doc(user.uid).onSnapshot(doc => {
+      if(!doc.exists) return;
+      const data = doc.data();
+
+      const checking = data.checking?.balance || 0;
+      const savings = data.savings?.balance || 0;
+      const credit = data.credit?.balance || 0;
+
+      checkingBalanceEl.textContent = `$${checking.toFixed(2)}`;
+      savingsBalanceEl.textContent = `$${savings.toFixed(2)}`;
+      creditBalanceEl.textContent = `$${credit.toFixed(2)}`;
+
+      balanceEl.textContent = `$${(checking + savings + credit).toFixed(2)}`;
+
+      checkingNumberEl.textContent = `Ending in ${data.checking?.number?.slice(-4) || "—"}`;
+      savingsNumberEl.textContent = `Ending in ${data.savings?.number?.slice(-4) || "—"}`;
+      creditNumberEl.textContent = `Ending in ${data.credit?.number?.slice(-4) || "—"}`;
+    });
+  });
+};
+
+</script>
+
+
+
+
+
+
+
+
+
+
 
 
 

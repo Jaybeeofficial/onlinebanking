@@ -258,3 +258,10 @@ viewAllBtn?.addEventListener("click", async e => {
 transactionsModalClose?.addEventListener("click", () => {
   transactionsModal?.classList.add("account-modal-hidden");
 });
+
+
+
+
+
+
+
