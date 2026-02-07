@@ -510,101 +510,96 @@
 
 
 
+
+
 <script>
+document.addEventListener("DOMContentLoaded", () => {
 
-// ---------------- Firebase Init ----------------
-const firebaseConfig = {
-  apiKey: "AIzaSyBR9H69WILmZ0JmlDopihAk_zhEtDpIsFw",
-  authDomain: "onlinebanking-347dd.firebaseapp.com",
-  projectId: "onlinebanking-347dd",
-  storageBucket: "onlinebanking-347dd.appspot.com",
-  messagingSenderId: "1047597422756",
-  appId: "1:1047597422756:web:2b08b2ca528cfd3e4cee31"
-};
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  const auth = firebase.auth();
+  const db = firebase.firestore();
 
-const db = firebase.firestore();
+  let currentUserId = null;
+  auth.onAuthStateChanged(user => {
+    currentUserId = user ? user.uid : null;
+  });
 
-// ---------------- Chat Elements ----------------
-const chatWidget = document.getElementById("chatWidget");
-const chatMessages = document.getElementById("chatMessages");
-const chatForm = document.getElementById("chatForm");
-const chatInput = document.getElementById("chatInput");
-const closeChat = document.getElementById("closeChat");
+  // ----------------- FAQ -----------------
+  document.querySelectorAll('.support-btn[data-support="faq"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const faq = document.getElementById("faqSection");
+      if(faq) faq.classList.toggle("hidden");
+    });
+  });
 
-// Get logged-in user ID dynamically
-let currentUserId = null;
-firebase.auth().onAuthStateChanged(user => {
-  if (user) currentUserId = user.uid;
-});
+  // ----------------- Email -----------------
+  document.querySelectorAll('.support-btn[data-support="email"]').forEach(btn => {
+    btn.addEventListener("click", () => {
+      const info = btn.closest(".support-card")?.querySelector(".email-info");
+      if(info) {
+        info.style.display = info.style.display === "block" ? "none" : "block";
+      }
+    });
+  });
 
-// ---------------- Support Buttons ----------------
-document.querySelectorAll(".support-btn").forEach(btn => {
-  btn.addEventListener("click", async () => {
-    const type = btn.dataset.support;
+  // ----------------- Chat -----------------
+  const chatWidget = document.getElementById("chatWidget");
+  const chatMessages = document.getElementById("chatMessages");
+  const chatForm = document.getElementById("chatForm");
+  const chatInput = document.getElementById("chatInput");
+  const closeChat = document.getElementById("closeChat");
+  let unsubscribeChat = null;
 
-    // ---------------- FAQ ----------------
-    if (type === "faq") {
-      const faqSection = document.getElementById("faqSection");
-      if (faqSection) faqSection.classList.toggle("hidden");
-    }
+  document.querySelectorAll('.support-btn[data-support="chat"]').forEach(btn => {
+    btn.addEventListener("click", async () => {
 
-    // ---------------- Chat ----------------
-    if (type === "chat") {
-      if (!currentUserId) return alert("Please login to start chat");
+      if (!currentUserId) {
+        alert("Please login to start chat");
+        return;
+      }
 
+      if(!chatWidget) return;
       chatWidget.classList.remove("hidden");
 
-      // Each user has their own chat document
       const chatRef = db.collection("chats").doc(currentUserId);
-      await chatRef.set({ userId: currentUserId, createdAt: firebase.firestore.FieldValue.serverTimestamp() }, { merge: true });
+      await chatRef.set(
+        { userId: currentUserId, createdAt: firebase.firestore.FieldValue.serverTimestamp() },
+        { merge: true }
+      );
 
       const messagesRef = chatRef.collection("messages");
 
-      // Initialize if empty
-      const snapshot = await messagesRef.limit(1).get();
-      if (snapshot.empty) {
-        await messagesRef.add({
-          sender: "system",
-          message: "Chat initialized",
-          timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }
+      // Remove old listener
+      if (unsubscribeChat) unsubscribeChat();
 
-      // Attach listener (only once)
-      if (!chatWidget.dataset.listenerAttached) {
-        messagesRef.orderBy("timestamp").onSnapshot(snapshot => {
-          chatMessages.innerHTML = "";
-          snapshot.forEach(doc => {
-            const msg = doc.data();
-            const div = document.createElement("div");
-            div.textContent = msg.message;
+      unsubscribeChat = messagesRef.orderBy("timestamp").onSnapshot(snapshot => {
+        if(!chatMessages) return;
+        chatMessages.innerHTML = "";
 
-            if (msg.sender === "admin") div.className = "admin";
-            else if (msg.sender === "user") div.className = "user";
-            else div.className = "system";
+        snapshot.forEach(doc => {
+          const msg = doc.data();
+          const div = document.createElement("div");
+          div.textContent = msg.message;
 
-            div.style.padding = "6px 10px";
-            div.style.borderRadius = "8px";
-            div.style.margin = "4px 0";
-            div.style.maxWidth = "70%";
-            div.style.alignSelf = msg.sender === "admin" ? "flex-start" : "flex-end";
-            div.style.background = msg.sender === "admin" ? "#007BFF" : (msg.sender === "user" ? "#e0e0e0" : "#ccc");
-            div.style.color = msg.sender === "admin" ? "#fff" : "#000";
+          div.className = msg.sender === "admin" ? "admin" : msg.sender === "user" ? "user" : "system";
+          div.style.padding = "6px 10px";
+          div.style.margin = "4px 0";
+          div.style.borderRadius = "8px";
+          div.style.maxWidth = "70%";
+          div.style.alignSelf = msg.sender === "admin" ? "flex-start" : "flex-end";
+          div.style.background = msg.sender === "admin" ? "#007BFF" : "#e0e0e0";
+          div.style.color = msg.sender === "admin" ? "#fff" : "#000";
 
-            chatMessages.appendChild(div);
-          });
-          chatMessages.scrollTop = chatMessages.scrollHeight;
+          chatMessages.appendChild(div);
         });
 
-        chatWidget.dataset.listenerAttached = true;
-      }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
 
-      // ---------------- Send Message ----------------
+      // Send message
       chatForm.onsubmit = async e => {
         e.preventDefault();
         const message = chatInput.value.trim();
-        if (!message) return;
+        if(!message) return;
 
         await messagesRef.add({
           sender: "user",
@@ -615,23 +610,17 @@ document.querySelectorAll(".support-btn").forEach(btn => {
         chatInput.value = "";
       };
 
-      // ---------------- Close Chat ----------------
-      closeChat.onclick = () => chatWidget.classList.add("hidden");
-    }
-
-    // ---------------- Email ----------------
-    if (type === "email") {
-      const parent = btn.closest(".support-card");
-      const info = parent.querySelector(".email-info");
-      if (info) info.style.display = "block";
-    }
+    });
   });
+
+  // Close chat
+  closeChat?.addEventListener("click", () => {
+    chatWidget?.classList.add("hidden");
+  });
+
 });
-
-
-
-
 </script>
+
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
@@ -646,19 +635,15 @@ document.querySelectorAll(".support-btn").forEach(btn => {
   const closePinErrorBtn = document.getElementById("closePinError");
 
   let currentUser = null;
-  let pinAction = "verify"; // can be "create", "change", or "verify"
-  let transferCallback = null; // callback after PIN verified
+  let pinAction = "verify"; 
+  let transferCallback = null; 
 
-  // ----------------------------
-  // Get current user info
-  // ----------------------------
+  
   auth.onAuthStateChanged(user => {
     if (user) currentUser = user;
   });
 
-  // ----------------------------
-  // Open PIN modal for creation/change/verification
-  // ----------------------------
+ 
   function openPinModal(action = "verify", callback = null) {
     pinAction = action;
     transferCallback = callback;
@@ -677,9 +662,7 @@ document.querySelectorAll(".support-btn").forEach(btn => {
     }
   }
 
-  // ----------------------------
-  // Confirm PIN button
-  // ----------------------------
+  
   confirmPinBtn.addEventListener("click", async () => {
     const pin = transferPinInput.value.trim();
     if (pin.length !== 4 || isNaN(pin)) {
@@ -726,23 +709,17 @@ document.querySelectorAll(".support-btn").forEach(btn => {
     }
   });
 
-  // ----------------------------
-  // Cancel PIN modal
-  // ----------------------------
+ 
   cancelPinBtn.addEventListener("click", () => {
     pinModal.classList.add("hidden");
   });
 
-  // ----------------------------
-  // Close PIN Error
-  // ----------------------------
+  
   closePinErrorBtn.addEventListener("click", () => {
     pinErrorModal.classList.add("hidden");
   });
 
-  // ----------------------------
-  // Example usage: create PIN after signup
-  // ----------------------------
+ 
   auth.onAuthStateChanged(async user => {
     if (user) {
       // Check if PIN exists
@@ -751,9 +728,9 @@ document.querySelectorAll(".support-btn").forEach(btn => {
         openPinModal("create");
       }
     }
-  });
+  }); 
 
-  // ----------------------------
+ // ----------------------------
   // Example usage: change PIN
   // ----------------------------
   // You can trigger this with a button click somewhere in your dashboard
@@ -775,9 +752,7 @@ document.querySelectorAll(".support-btn").forEach(btn => {
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-  /* ===============================
-     SERVICES – LEARN MORE BUTTONS
-  =============================== */
+  
 
   const servicesModal = document.getElementById("servicesModal");
   const serviceTitle = document.getElementById("serviceTitle");
@@ -810,52 +785,15 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  /* ===============================
-     SUPPORT BUTTONS
-  =============================== */
+  
 
-  // FAQ toggle
-  document.querySelectorAll('.support-btn[data-support="faq"]').forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.getElementById("faqSection")?.classList.toggle("hidden");
-    });
-  });
+  
+ 
 
-  // Email support toggle
-  document.querySelectorAll('.support-btn[data-support="email"]').forEach(btn => {
-    btn.addEventListener("click", () => {
-      const info = btn.closest(".support-card")?.querySelector(".email-info");
-      if (info) {
-        info.style.display = info.style.display === "block" ? "none" : "block";
-      }
-    });
-  });
+  
+console.log("✅ Button handlers loaded successfully");
 
-
-  /* ===============================
-     CHAT OPEN / CLOSE
-  =============================== */
-
-  const chatWidget = document.getElementById("chatWidget");
-  const closeChatBtn = document.getElementById("closeChat");
-
-  document.querySelectorAll('.support-btn[data-support="chat"]').forEach(btn => {
-    btn.addEventListener("click", () => {
-      chatWidget?.classList.remove("hidden");
-    });
-  });
-
-  closeChatBtn?.addEventListener("click", () => {
-    chatWidget?.classList.add("hidden");
-  });
-
-
-  /* ===============================
-     SAFETY CHECK (DEBUG)
-  =============================== */
-  console.log("✅ Button handlers loaded successfully");
-
-});
+ });
 </script>
 
 
@@ -896,13 +834,6 @@ document.addEventListener("DOMContentLoaded", () => {
 };
 
 </script>
-
-
-
-
-
-
-
 
 
 

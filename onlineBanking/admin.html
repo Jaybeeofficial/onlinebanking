@@ -111,7 +111,7 @@ if(!firebase.apps.length) firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// Elements
+
 const adminLoginOverlay = document.getElementById("adminLoginOverlay");
 const adminEmail = document.getElementById("adminEmail");
 const adminPassword = document.getElementById("adminPassword");
@@ -134,7 +134,7 @@ const saveBalancesBtn = document.getElementById("saveBalancesBtn");
 let selectedUserId = null;
 const admins = ["admin@yourbank.com"];
 
-// Admin login
+
 adminLoginBtn.onclick = () => {
   const email = adminEmail.value.trim();
   const password = adminPassword.value.trim();
@@ -151,7 +151,7 @@ adminLoginBtn.onclick = () => {
     .catch(err => errorMsg.textContent = err.message);
 };
 
-// Keep admin logged in
+
 auth.onAuthStateChanged(user => {
   if(user && admins.includes(user.email)){
     adminLoginOverlay.style.display = "none";
@@ -161,7 +161,7 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-// Load all users
+
 function loadUsers(){
   chatListEl.innerHTML = "";
   db.collection("users").onSnapshot(snapshot => {
@@ -177,13 +177,13 @@ function loadUsers(){
   });
 }
 
-// Select a user to chat
+
 function selectUser(userId, fullName){
   selectedUserId = userId;
   chatHeader.textContent = "Chat with: " + fullName;
   balanceEditor.style.display = "block";
 
-  // Load balances
+  
   db.collection("users").doc(userId).get().then(doc => {
     if(doc.exists){
       const data = doc.data();
@@ -194,7 +194,7 @@ function selectUser(userId, fullName){
     }
   });
 
-  // Load chat
+  
   const messagesRef = db.collection("chats").doc(userId).collection("messages");
   messagesRef.orderBy("timestamp").onSnapshot(snapshot => {
     chatMessagesEl.innerHTML = "";
@@ -218,7 +218,7 @@ function selectUser(userId, fullName){
   });
 }
 
-// Send message
+
 chatForm.onsubmit = e=>{
   e.preventDefault();
   if(!selectedUserId) return;
@@ -251,6 +251,8 @@ saveBalancesBtn.onclick = () => {
   alert("Balances updated!");
 };
 
-</script>
+</script> 
+
+
 </body>
 </html>
