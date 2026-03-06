@@ -185,3 +185,491 @@ saveBtn.onclick = () => {
 
 </body>
 </html>
+
+
+
+
+ <!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Online Bank</title>
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+/>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  
+
+  
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+
+    
+    <form id="loginForm">
+      <h2>Login</h2>
+
+      <input type="email" id="username" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+
+      <button type="submit">Login</button>
+
+      <p>
+        <a href="#" id="showForgot">Forgot password?</a>
+      </p>
+      <p>
+        <a href="#" id="showSignup">Create an account</a>
+      </p>
+    </form>
+
+   
+    <form id="signupForm" class="hidden">
+      <h2>Create Account</h2>
+
+      <input type="text" id="signupName" placeholder="Full Name" required />
+      <input type="email" id="signupEmail" placeholder="Email" required />
+      <input type="password" id="signupPassword" placeholder="Password" required />
+
+      <button type="submit">Sign Up</button>
+
+      <p>
+        <a href="#" id="backToLoginFromSignup">Already have an account? Login</a>
+      </p>
+
+      <p id="signupError" style="color:red;"></p>
+    </form>
+
+    
+    <form id="forgotForm" class="hidden">
+      <h2>Reset Password</h2>
+
+      <input type="email" id="email" placeholder="Enter your email" required />
+
+      <button type="submit">Send Reset Link</button>
+
+      <p>
+        <a href="#" id="backToLogin">Back to login</a>
+      </p>
+    </form>
+
+  </div>
+</div>
+
+
+  
+  <header class="topbar">
+  <div class="logo">
+    <span class="mountain">▲▲</span> Alta <strong>Bank</strong>
+  </div>
+
+  <nav class="nav" id="nav">
+    <a class="active" href="#">Accounts</a>
+    <a href="#">Transfer & Pay</a>
+    <a href="#">Bill Pay</a>
+    <a href="#">Services</a>
+    <a href="#">Support</a>
+  </nav>
+
+ 
+
+ <div class="user" id="user">
+  <span>Welcome </span>
+  <button class="logout">Log Out</button>
+</div>
+
+<div class="hamburger" id="hamburger">☰</div>
+
+</header>
+
+<main class="container">
+  <h1>Welcome back, <span id="welcomeName"></span></h1> 
+  <p class="subtitle">Your account overview is below.</p>
+
+  <section class="grid">
+    
+    <div class="card account-card">
+      <h3>Accounts Summary</h3>
+
+      <div class="account">
+        <div class="account-left">
+          <div class="account-icon checking">
+            <i class="fa-solid fa-money-check-dollar"></i>
+          </div>
+          <div>
+            <strong>Checking</strong>
+            <span id="checkingNumber">Ending in —</span>
+          </div>
+        </div>
+        <strong id="checkingBalance">$0.00</strong>
+      </div>
+
+      <div class="account">
+        <div class="account-left">
+          <div class="account-icon savings">
+            <i class="fa-solid fa-piggy-bank"></i>
+          </div>
+          <div>
+            <strong>Savings</strong>
+            <span id="savingsNumber">Ending in —</span>
+          </div>
+        </div>
+        <strong id="savingsBalance">$0.00</strong>
+      </div>
+
+      <div class="account">
+        <div class="account-left">
+          <div class="account-icon credit">
+            <i class="fa-solid fa-credit-card"></i>
+          </div>
+          <div>
+            <strong>Credit Card</strong>
+            <span id="creditNumber">Ending in —</span>
+          </div>
+        </div>
+        <strong id="creditBalance">$0.00</strong>
+      </div>
+
+      <a class="link" href="#" id="viewDetails">View Details →</a>
+    </div>
+
+    
+    <div class="card transactions-card">
+      <div class="card-header">
+        <h3>Recent Transactions</h3>
+        <a class="link" href="#" id="viewAll">View All</a>
+      </div>
+
+      <div class="transaction" id="transactionList">
+        <li>No recent transactions yet</li>
+      </div>
+    </div>
+
+    
+    <div class="card transfer-card">
+      <h3>Quick Transfer</h3>
+
+      <label>From</label>
+      <select>
+        <option>Checking</option>
+      </select>
+
+      <label>To</label>
+      <select>
+        <option>Savings</option>
+      </select>
+
+      <label>Amount</label>
+      <div class="currency-input">
+        <span class="currency">$</span>
+        <input type="number" placeholder="0.00">
+      </div>
+
+      <button class="btn green" style="width:auto; min-width:160px; padding:10px 26px;">
+        Transfer Funds
+      </button>
+    </div>
+
+   
+    <div class="card billpay-card">
+      <h3>Bill Pay</h3>
+
+      <div class="billpay-grid">
+        <div class="field">
+          <label>Pay To</label>
+          <select>
+            <option>Electric Company</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Delivery Date</label>
+          <input type="date">
+        </div>
+
+        <div class="field">
+          <label>Amount</label>
+          <div class="currency-input">
+            <span class="currency">$</span>
+            <input type="number" placeholder="0.00">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn blue billpay-btn" style="width:auto; min-width:140px;">
+        Pay Bill
+      </button>
+    </div>
+  </section>
+
+ 
+  <div class="account-modal account-modal-hidden" id="accountDetailsModal">
+    <div class="account-modal-card">
+      <h3>Account Details</h3>
+      <p><strong>Checking Account</strong> • <span id="modalCheckingNumber">Ending in —</span></p>
+      <p>Available Balance: <span id="modalCheckingBalance">$0.00</span></p>
+      <p>Account Type: Checking</p>
+      <p>Opened: <span id="modalOpened">—</span></p>
+      <p>Branch: <span id="modalBranch">—</span></p>
+      <h4>Recent Activity</h4>
+      <ul id="modalRecentActivity">
+        <li>No recent transactions yet</li>
+      </ul>
+      <button class="account-modal-close btn">Close</button>
+    </div>
+  </div>
+
+  
+  <div class="transactions-modal account-modal-hidden" id="transactionsModal">
+    <div class="account-modal-card">
+      <h3>Recent Transactions</h3>
+      <ul id="modalTransactionsList">
+        <li>No recent transactions yet</li>
+      </ul>
+      <button class="account-modal-close btn">Close</button>
+    </div>
+  </div>
+
+  
+<div class="receipt-modal hidden" id="pinModal">
+  <div class="receipt-card">
+    <h3 id="pinModalTitle">Create Your 4-Digit PIN</h3>
+    <input type="password" id="transferPin" maxlength="4" placeholder="****" />
+    <button class="btn blue" id="confirmPin">Confirm</button>
+    <button class="btn close-receipt" id="cancelPin">Cancel</button>
+  </div>
+</div>
+
+
+<div class="receipt-modal hidden" id="pinErrorModal">
+  <div class="receipt-card">
+    <h3>Incorrect PIN</h3>
+    <p>The PIN you entered is incorrect. Please try again.</p>
+    <button class="btn blue close-receipt" id="closePinError">Close</button>
+  </div>
+</div>
+
+
+<div class="receipt-modal hidden" id="accountHoldModal">
+  <div class="receipt-card">
+    <h3>Transfer On Hold</h3>
+    <p>Your account needs to be upgraded to complete this transaction.</p>
+    <button class="btn blue close-receipt" id="closeAccountHold">Close</button>
+  </div>
+</div>
+
+</main>
+
+
+
+
+<div class="card balance-card">
+  <h3>Available Balance</h3>
+  <h1 id="balance">$0.00</h1>
+</div>
+
+<div class="card transfer-card">
+  <h2>Transfer & Pay</h2>
+
+  <form class="transfer-form" id="transferForm">
+    <label>Recipient Account Number</label>
+    <input type="text" id="accountNumber" required />
+
+    <label>Bank</label>
+    <select id="bank" required>
+      <option value="">Select Bank</option>
+      <option>JPMorgan Chase (USA)</option>
+      <option>Bank of America (USA)</option>
+      <option>Citibank (USA)</option>
+      <option>Wells Fargo (USA)</option>
+      <option>HSBC (UK)</option>
+      <option>Barclays (UK)</option>
+      <option>Lloyds Bank (UK)</option>
+      <option>Deutsche Bank (Germany)</option>
+      <option>BNP Paribas (France)</option>
+      <option>Credit Suisse (Switzerland)</option>
+    </select>
+
+    <label>Account Name</label>
+    <input type="text" id="accountName" required />
+
+    <label>Amount</label>
+    <div class="currency-input">
+      <span class="currency">$</span>
+      <input type="number" id="amount" required />
+    </div>
+
+    <button type="submit" class="btn blue">Transfer Money</button>
+  </form>
+</div>
+
+
+
+
+<div class="card transfer-history">
+  <h3>Transfer History</h3>
+  <div id="historyList">
+    <p>No transfers yet</p>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<section class="services-section">
+
+  <h2 class="services-title">Our Banking Services</h2>
+  <p class="services-subtitle">Everything you need to manage your account securely</p>
+
+  <div class="services-grid">
+
+    <div class="service-card">
+      <i class="fa-solid fa-user-shield"></i>
+      <h4>Account Management</h4>
+      <p>Manage your accounts, balances, and personal information.</p>
+      <button class="service-btn" data-service="account">Learn More</button>
+    </div>
+
+    <div class="service-card">
+      <i class="fa-solid fa-money-bill-transfer"></i>
+      <h4>Money Transfers</h4>
+      <p>Send money securely to local and international banks.</p>
+      <button class="service-btn" data-service="transfer">Learn More</button>
+    </div>
+
+    <div class="service-card">
+      <i class="fa-solid fa-file-invoice-dollar"></i>
+      <h4>Bill Payments</h4>
+      <p>Pay utilities, subscriptions, and services on time.</p>
+      <button class="service-btn" data-service="bill">Learn More</button>
+    </div>
+
+    <div class="service-card">
+      <i class="fa-solid fa-lock"></i>
+      <h4>Security & PIN</h4>
+      <p>Protect your account with secure PIN and verification.</p>
+      <button class="service-btn" data-service="security">Learn More</button>
+    </div>
+
+    <div class="service-card">
+      <i class="fa-solid fa-clock-rotate-left"></i>
+      <h4>Transaction History</h4>
+      <p>View detailed records of all transactions.</p>
+      <button class="service-btn" data-service="history">Learn More</button>
+    </div>
+
+    <div class="service-card highlight premium">
+  <span class="premium-badge">PREMIUM</span>
+      <i class="fa-solid fa-arrow-up-right-dots"></i>
+      <h4>Account Upgrade</h4>
+      <p>Upgrade your account to remove transfer restrictions.</p>
+      <button class="service-btn upgrade" data-service="upgrade">Upgrade Now</button>
+    </div>
+
+  </div>
+</section>
+
+
+<div class="services-modal hidden" id="servicesModal">
+  <div class="services-modal-card">
+    <h3 id="serviceTitle"></h3>
+    <p id="serviceContent"></p>
+    <button class="btn blue" id="closeServiceModal">Close</button>
+  </div>
+</div>
+
+
+<section class="support-section">
+
+  <h2 class="support-title">Support Center</h2>
+  <p class="support-subtitle">We’re here to help you 24/7</p>
+
+ 
+  <div class="support-grid">
+
+    <div class="support-card">
+      <i class="fa-solid fa-headset"></i>
+      <h4>Live Support</h4>
+      <p>Chat with our support team for immediate assistance.</p>
+      <button class="support-btn" data-support="chat">Start Chat</button>
+    </div>
+
+    
+    <div class="support-card">
+  <i class="fa-solid fa-envelope"></i>
+  <h4>Email Support</h4>
+  <p>Send us an email and we’ll respond within 24 hours.</p>
+  <button class="support-btn" data-support="email">Contact Us</button>
+  <p class="email-info" style="display:none; color:green; margin-top:8px;">
+    Email: <a href="mailto:support@yourbank.com">binancecompany940@gmail.com</a>
+  </p>
+</div>
+
+
+    <div class="support-card">
+      <i class="fa-solid fa-circle-question"></i>
+      <h4>FAQs</h4>
+      <p>Find quick answers to common questions.</p>
+      <button class="support-btn" data-support="faq">View FAQs</button>
+    </div>
+
+  </div>
+
+ 
+  <div class="faq-section hidden" id="faqSection">
+
+    <div class="faq-item">
+      <h5>Why is my transfer on hold?</h5>
+      <p>Your account may require an upgrade to complete transfers.</p>
+    </div>
+
+    <div class="faq-item">
+      <h5>How do I change my transfer PIN?</h5>
+      <p>You can change your PIN from the dashboard under security settings.</p>
+    </div>
+
+    <div class="faq-item">
+      <h5>How long do transfers take?</h5>
+      <p>Transfers are usually instant but may be delayed for verification.</p>
+    </div>
+
+  </div>
+
+
+
+  <div class="chat-widget hidden" id="chatWidget">
+  <div class="chat-header">
+    <h4>Live Support</h4>
+    <button id="closeChat">✕</button>
+  </div>
+  <div class="chat-messages" id="chatMessages"></div>
+  <form id="chatForm">
+    <input type="text" id="chatInput" placeholder="Type your message..." required />
+    <button type="submit">Send</button>
+  </form>
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<footer class="footer">
+  <span>📱 Mobile Banking</span>
+  <span>❓ Support Center</span>
+  <span>📊 Financial Tools</span>
+</footer> -->
